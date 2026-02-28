@@ -1,0 +1,35 @@
+import { Link } from "react-router";
+
+const ListMovie = ({ ListMovie, TitleList, slug }) => {
+  return (
+    <div className="relative w-full h-full pb-7 ">
+      <div className="p-5 grid grid-rows-auto grid-cols-4 sm:grid-cols-5 md:grid-cols-7   gap-6  from-white to-zinc-900 to-75% z-10">
+        <Link className="row-start-1 col-start-1 col-span-full  text-2xl font-medium text-amber-50 h-fit" to={slug}>
+          {TitleList} {">"}
+        </Link>
+        {ListMovie.slice(0, 7).map((item, index) => {
+          return (
+            <div
+              key={item.slug}
+              className={`w-full h-full col-start-${index + 1} md:row-start-2 place-items-center hover:scale-105 transition duration-300 ease-in-out`}
+            >
+              <a
+                className="block text-center text-amber-50 text-[12px] md:text-[18px] md:font-medium "
+                href={`/phim/${item.slug}`}
+              >
+                <img
+                  className="object-cover w-full h-full rounded-2xl"
+                  src={`https://phimapi.com/image.php?url=https://phimimg.com/${item.poster_url}`}
+                  alt=""
+                />
+                {item.name}
+              </a>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default ListMovie;
