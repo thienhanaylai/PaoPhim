@@ -79,7 +79,7 @@ const Navbar = () => {
               );
             })}
           </div>
-          {isSearch ? <CloseOutlined /> : <SearchOutlined />}
+
           <a href="/" className={`${isSearch ? "hidden" : "block"} w-fit h-full`}>
             <img src={logoPao} className="w-auto h-full object-contain" alt="" />
           </a>

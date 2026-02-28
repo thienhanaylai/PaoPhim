@@ -50,7 +50,7 @@ const WatchMoviePage = () => {
     <div className="min-h-screen bg-[#111114] text-gray-200 pb-20 pt-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col xl:flex-row gap-6">
         <div className="flex-1">
-          <div className="player-wrapper relative w-full aspect-video bg-black rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-gray-800">
+          <div className="player-wrapper relative w-full min-w-[240px] aspect-video bg-black rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-gray-800">
             {currentEpisode ? (
               <iframe
                 src={currentEpisode.link_embed}
