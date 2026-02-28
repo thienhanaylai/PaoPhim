@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import movieService from "../services/movieService";
 import SekeletonLoadingLogo from "../components/layouts/SekeletonLoadingLogo";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useNavigate } from "react-router";
 import { Pagination } from "antd";
 
 let CategoryList = await movieService.getCategory();
 CategoryList = CategoryList.filter(item => !item.slug.includes("phim-18"));
-const MoviePage = ({ type_list = "phim-bo" }) => {
-  const { category } = useParams();
+const CategoryMoviePage = () => {
+  const { type_list } = useParams();
   const [movieData, setMovieData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const navigate = useNavigate();
   const [filters, setFilters] = useState({
-    sort_field: "modified.time",
-    sort_type: "desc",
-    category: category,
+    page: "",
+    sort_field: "",
+    sort_type: "",
     sort_lang: "",
     country: "",
     year: "",
+    limit: "28",
   });
 
   const currentYear = new Date().getFullYear();
@@ -26,11 +27,12 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
   useEffect(() => {
     const fetchApi = async () => {
       try {
-        const res = await movieService.getMoviebyFillter({
+        const res = await movieService.getMovieByCategory({
           type_list,
           page: currentPage,
           ...filters,
         });
+        console.log(res);
         setMovieData(res.data);
       } catch (err) {
         console.error("Lỗi:", err);
@@ -46,6 +48,14 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
 
   const handleFilterChange = e => {
     const { name, value } = e.target;
+    if (name === "category") {
+      if (value) {
+        navigate(`/the-loai/${value}`);
+      } else {
+        navigate(`/`);
+      }
+      return;
+    }
     setFilters(prev => ({ ...prev, [name]: value }));
     setCurrentPage(1);
   };
@@ -82,7 +92,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
 
           <select
             name="category"
-            value={filters.category}
+            value={type_list}
             onChange={handleFilterChange}
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
@@ -170,4 +180,4 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
   );
 };
 
-export default MoviePage;
+export default CategoryMoviePage;

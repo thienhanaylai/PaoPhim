@@ -1,9 +1,10 @@
 import App from "../App";
 import HomePage from "../pages/HomePage";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import MoviePage from "../pages/MoviePage";
 import DetailMoviePage from "../pages/DetailMoviePage";
 import VideoStream from "../pages/VideoStreamPage";
+import CategoryMoviePage from "../pages/CategoryMoviePage";
 
 const AppRoutes = createBrowserRouter([
   {
@@ -22,6 +23,14 @@ const AppRoutes = createBrowserRouter([
       {
         path: "phim-le",
         element: <MoviePage key={"phim-le"} type_list="phim-le" />,
+      },
+      {
+        path: "the-loai",
+        element: <Navigate to="/" replace />,
+      },
+      {
+        path: "the-loai/:type_list",
+        element: <CategoryMoviePage key={"the-loai"} />,
       },
       {
         path: "xem-phim/:movieSlug/:episodeSlug",

@@ -67,12 +67,12 @@ const Navbar = () => {
             <MenuOutlined />
           </a>
           <div
-            className={`${isOpen ? "block" : "hidden"} block md:hidden w-fit h-auto p-2 m-2 rounded-lg flex flex-col bg-[#0d071f] fixed left-0 top-[70px]`}
+            className={`${isOpen ? "block" : "hidden"} block md:hidden w-fit h-auto p-2 ml-1 rounded-lg flex flex-col bg-[#0d071f] fixed left-0 top-[70px]`}
           >
             {menuItems.map(item => {
               return (
-                <div key={item.label}>
-                  <NavLink className="p-[15px] text-amber-50 font-medium" to={item.link}>
+                <div className="my-2" key={item.label}>
+                  <NavLink className="p-[25px] text-amber-50 font-medium" to={item.link}>
                     {item.label}
                   </NavLink>
                 </div>

@@ -39,6 +39,19 @@ const movieService = {
     const url = `/v1/api/tim-kiem?keyword=${keyword}&limit=${limit}`;
     return axiosClient.get(url);
   },
+  getMovieByCategory: ({
+    type_list = "",
+    page = "",
+    sort_field = "",
+    sort_type = "",
+    sort_lang = "",
+    country = "",
+    year = "",
+    limit = "28",
+  }) => {
+    const url = `/v1/api/the-loai/${type_list}?page=${page}&sort_field=${sort_field}&sort_type=${sort_type}&sort_lang=${sort_lang}&country=${country}&year=${year}&limit=${limit}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default movieService;
