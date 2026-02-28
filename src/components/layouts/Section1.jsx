@@ -32,6 +32,7 @@ const Section1 = ({ MovieData }) => {
   if (!moviesWithDetails || moviesWithDetails.length === 0) {
     return <SekeletonLoadingLogo />;
   }
+
   return (
     <div className="relative w-full h-[95vh] md:h-[90vh] md:mt-16 overflow-hidden">
       <div

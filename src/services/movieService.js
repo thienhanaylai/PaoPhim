@@ -5,7 +5,7 @@ const movieService = {
     const url = "/danh-sach/phim-moi-cap-nhat-v3?page=1";
     return axiosClient.get(url);
   },
-  getMovie: slug => {
+  getMovie: ({ slug }) => {
     const url = `/phim/${slug}`;
     return axiosClient.get(url);
   },
@@ -35,8 +35,8 @@ const movieService = {
     const url = `/the-loai`;
     return axiosClient.get(url);
   },
-  getMovieBySearch: ({ keyword }) => {
-    const url = `/v1/api/tim-kiem?keyword=${keyword}`;
+  getMovieBySearch: ({ keyword, limit = 10 }) => {
+    const url = `/v1/api/tim-kiem?keyword=${keyword}&limit=${limit}`;
     return axiosClient.get(url);
   },
 };

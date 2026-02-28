@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/layouts/Navbar";
 import Section1 from "../components/layouts/Section1";
 import movieService from "../services/movieService";
-import Section2 from "../components/layouts/SekeletonLoadingLogo";
-import SekeletonLoadingLogo from "../components/layouts/SekeletonLoadingLogo";
 import ListMovie from "../components/layouts/ListMovie";
 
 const HomePage = () => {

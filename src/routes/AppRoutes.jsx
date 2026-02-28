@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage";
 import { createBrowserRouter } from "react-router";
 import MoviePage from "../pages/MoviePage";
 import DetailMoviePage from "../pages/DetailMoviePage";
+import VideoStream from "../pages/VideoStreamPage";
 
 const AppRoutes = createBrowserRouter([
   {
@@ -23,7 +24,11 @@ const AppRoutes = createBrowserRouter([
         element: <MoviePage key={"phim-le"} type_list="phim-le" />,
       },
       {
-        path: "phim",
+        path: "xem-phim/:movieSlug/:episodeSlug",
+        element: <VideoStream />,
+      },
+      {
+        path: "phim/:slug",
         element: <DetailMoviePage />,
       },
     ],
