@@ -25,10 +25,6 @@ const AppRoutes = createBrowserRouter([
         element: <MoviePage key={"phim-le"} type_list="phim-le" />,
       },
       {
-        path: "the-loai",
-        element: <Navigate to="/" replace />,
-      },
-      {
         path: "the-loai/:type_list",
         element: <CategoryMoviePage key={"the-loai"} />,
       },
@@ -39,6 +35,10 @@ const AppRoutes = createBrowserRouter([
       {
         path: "phim/:slug",
         element: <DetailMoviePage />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" replace />,
       },
     ],
   },
