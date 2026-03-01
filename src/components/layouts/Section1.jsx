@@ -13,7 +13,8 @@ const Section1 = ({ MovieData }) => {
       try {
         const top5Movies = MovieData.slice(0, 5);
         const promises = top5Movies.map(async item => {
-          const res = await homeService.getMovie(item.slug);
+          const res = await homeService.getMovie({ slug: item.slug });
+          console.log(res);
           return {
             ...item,
             content: res.movie.content,
@@ -32,7 +33,7 @@ const Section1 = ({ MovieData }) => {
   if (!moviesWithDetails || moviesWithDetails.length === 0) {
     return <SekeletonLoadingLogo />;
   }
-
+  console.log(moviesWithDetails);
   return (
     <div className="relative w-full h-[95vh] md:h-[90vh] md:mt-16 overflow-hidden">
       <div

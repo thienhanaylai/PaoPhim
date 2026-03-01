@@ -32,7 +32,6 @@ const CategoryMoviePage = () => {
           page: currentPage,
           ...filters,
         });
-        console.log(res);
         setMovieData(res.data);
       } catch (err) {
         console.error("Lỗi:", err);
