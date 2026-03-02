@@ -154,22 +154,28 @@ const CountryMoviePage = () => {
       </div>
 
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-7 gap-5 mb-8">
-        {movieData.items.map(item => (
-          <Link
-            key={item.slug}
-            className="block text-center text-amber-50 font-medium group hover:text-yellow-500 transition-colors"
-            to={`/phim/${item.slug}`}
-          >
-            <div className="relative overflow-hidden rounded-2xl mb-2">
-              <img
-                className="object-cover w-full aspect-[2/3] group-hover:scale-105 transition-transform duration-300"
-                src={`https://phimapi.com/image.php?url=https://phimimg.com/${item.poster_url}`}
-                alt={item.name}
-              />
-            </div>
-            <span className="line-clamp-2 text-sm">{item.name}</span>
-          </Link>
-        ))}
+        {!movieData.items ? (
+          <>
+            <p className="text-[18px] col-span-2 font-medium text-amber-50">Không có kết quả cần tìm!</p>
+          </>
+        ) : (
+          movieData?.items?.map(item => (
+            <Link
+              key={item.slug}
+              className="block text-center text-amber-50 font-medium group hover:text-yellow-500 transition-colors"
+              to={`/phim/${item.slug}`}
+            >
+              <div className="relative overflow-hidden rounded-2xl mb-2">
+                <img
+                  className="object-cover w-full aspect-[2/3] group-hover:scale-105 transition-transform duration-300"
+                  src={`https://phimapi.com/image.php?url=https://phimimg.com/${item.poster_url}`}
+                  alt={item.name}
+                />
+              </div>
+              <span className="line-clamp-2 text-sm">{item.name}</span>
+            </Link>
+          ))
+        )}
       </div>
 
       <div>
