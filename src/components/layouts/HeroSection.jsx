@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import homeService from "../../services/movieService";
 import { IoPlayCircle, IoInformationCircleSharp } from "react-icons/io5";
 import SekeletonLoadingLogo from "./SekeletonLoadingLogo";
+import { Link } from "react-router";
 
-const Section1 = ({ MovieData }) => {
+const HeroSection = ({ MovieData }) => {
   const [isMovie, setIsMovie] = useState(0);
   const [moviesWithDetails, setMoviesWithDetails] = useState([]);
 
@@ -47,7 +48,12 @@ const Section1 = ({ MovieData }) => {
           key={"name" + isMovie}
           className="animate-fade-right animate-duration-300 animate-ease-in col-span-3 row-start-3 md:row-start-3 "
         >
-          <h2 className="text-3xl md:text-4xl font-bold py-2 text-amber-50 ">{moviesWithDetails[isMovie].name}</h2>
+          <Link
+            to={`/phim/${moviesWithDetails[isMovie].slug}`}
+            className="text-3xl md:text-4xl font-bold py-2 hover:text-amber-500! text-amber-50 "
+          >
+            {moviesWithDetails[isMovie].name}
+          </Link>
           <p className="text-2xl font-light text-amber-500">{moviesWithDetails[isMovie].origin_name}</p>
           {moviesWithDetails[isMovie].category.map(item => {
             return (
@@ -104,4 +110,4 @@ const Section1 = ({ MovieData }) => {
   );
 };
 
-export default Section1;
+export default HeroSection;

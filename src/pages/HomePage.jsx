@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Section1 from "../components/layouts/Section1";
+import HeroSection from "../components/layouts/HeroSection";
 import movieService from "../services/movieService";
 import ListMovie from "../components/layouts/ListMovie";
 
@@ -25,7 +25,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Section1 MovieData={newMovie} />
+      <HeroSection MovieData={newMovie} />
       <ListMovie ListMovie={newMovieBo} TitleList={"Phim Bộ"} slug={"phim-bo"} />
       <ListMovie ListMovie={newMovieLe} TitleList={"Phim Lẻ"} slug={"phim-le"} />
     </>
