@@ -88,7 +88,7 @@ const Navbar = () => {
           <div
             className={`${isOpen ? "block" : "hidden"} block md:hidden w-fit h-auto p-2 ml-1 rounded-lg flex flex-col bg-[#0d071f] fixed left-0 top-[70px]`}
           >
-            {menuItems.map(item => {
+            {menuItems?.map(item => {
               return (
                 <div className="my-2" key={item.label}>
                   <NavLink className="p-[25px] text-amber-50 font-medium" to={item.link}>
@@ -115,6 +115,9 @@ const Navbar = () => {
               placeholder="Tìm kiếm"
               onChange={e => {
                 setIsKeyWord(e.target.value);
+              }}
+              onSearch={() => {
+                navigate(`tim-kiem/${isKeyword}`);
               }}
               allowClear
             />

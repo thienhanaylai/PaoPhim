@@ -6,6 +6,7 @@ import DetailMoviePage from "../pages/DetailMoviePage";
 import VideoStream from "../pages/VideoStreamPage";
 import CategoryMoviePage from "../pages/CategoryMoviePage";
 import CountryMoviePage from "../pages/CountryMoviePage";
+import FindMoviePage from "../pages/FindMoviePage";
 
 const AppRoutes = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const AppRoutes = createBrowserRouter([
       {
         path: "phim/:slug",
         element: <DetailMoviePage />,
+      },
+      {
+        path: "tim-kiem/:keyword",
+        element: <FindMoviePage />,
       },
       {
         path: "*",

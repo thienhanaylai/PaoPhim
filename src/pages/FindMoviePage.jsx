@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react";
 import movieService from "../services/movieService";
 import SekeletonLoadingLogo from "../components/layouts/SekeletonLoadingLogo";
-import { Link, useParams, useNavigate } from "react-router";
+import { Link, useParams } from "react-router";
 import { Pagination } from "antd";
 
 let CategoryList = await movieService.getCategory();
 CategoryList = CategoryList.filter(item => !item.slug.includes("phim-18"));
-const CategoryMoviePage = () => {
-  const { type_list } = useParams();
+const FindMoviePage = ({ type_list = "" }) => {
+  const { keyword } = useParams();
   const [movieData, setMovieData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [countryList, setCountryList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const [countryList, setCountryList] = useState([]);
   const [filters, setFilters] = useState({
-    page: "",
-    sort_field: "",
-    sort_type: "",
+    sort_field: "modified.time",
+    sort_type: "desc",
+    category: "",
     sort_lang: "",
     country: "",
     year: "",
-    limit: "28",
+    limit: 28,
   });
-
+  console.log(keyword);
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 15 }, (_, i) => currentYear - i);
 
@@ -30,11 +29,12 @@ const CategoryMoviePage = () => {
     const fetchApi = async () => {
       try {
         setIsLoading(true);
-        const res = await movieService.getMovieByCategory({
-          type_list,
+        const res = await movieService.getMovieBySearch({
+          keyword,
           page: currentPage,
           ...filters,
         });
+        console.log(res);
         const contryList = await movieService.getCountry();
         setCountryList(contryList);
         setMovieData(res.data);
@@ -54,17 +54,10 @@ const CategoryMoviePage = () => {
 
   const handleFilterChange = e => {
     const { name, value } = e.target;
-    if (name === "category") {
-      if (value) {
-        navigate(`/the-loai/${value}`);
-      } else {
-        navigate(`/`);
-      }
-      return;
-    }
     setFilters(prev => ({ ...prev, [name]: value }));
     setCurrentPage(1);
   };
+
   if (isLoading || !movieData || movieData.length === 0) {
     return <SekeletonLoadingLogo />;
   }
@@ -97,7 +90,7 @@ const CategoryMoviePage = () => {
 
           <select
             name="category"
-            value={type_list}
+            value={filters.category}
             onChange={handleFilterChange}
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
@@ -186,4 +179,4 @@ const CategoryMoviePage = () => {
   );
 };
 
-export default CategoryMoviePage;
+export default FindMoviePage;

@@ -35,8 +35,18 @@ const movieService = {
     const url = `/the-loai`;
     return axiosClient.get(url);
   },
-  getMovieBySearch: ({ keyword, limit = 10 }) => {
-    const url = `/v1/api/tim-kiem?keyword=${keyword}&limit=${limit}`;
+  getMovieBySearch: ({
+    keyword,
+    page = "",
+    sort_field = "",
+    sort_type = "",
+    sort_lang = "",
+    category = "",
+    country = "",
+    year = "",
+    limit = 10,
+  }) => {
+    const url = `/v1/api/tim-kiem?keyword=${keyword}&page=${page}&sort_field=${sort_field}&sort_type=${sort_type}&sort_lang=${sort_lang}&category=${category}&country=${country}&year=${year}&limit=${limit}`;
     return axiosClient.get(url);
   },
   getMovieByCategory: ({

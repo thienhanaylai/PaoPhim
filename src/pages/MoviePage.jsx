@@ -11,6 +11,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
   const [movieData, setMovieData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [countryList, setCountryList] = useState([]);
   const [filters, setFilters] = useState({
     sort_field: "modified.time",
     sort_type: "desc",
@@ -32,6 +33,8 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
           page: currentPage,
           ...filters,
         });
+        const contryList = await movieService.getCountry();
+        setCountryList(contryList);
         setMovieData(res.data);
       } catch (err) {
         console.error("Lỗi:", err);
@@ -116,12 +119,13 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
             <option value="">Tất cả quốc gia</option>
-            <option value="han-quoc">Hàn Quốc</option>
-            <option value="trung-quoc">Trung Quốc</option>
-            <option value="au-my">Âu Mỹ</option>
-            <option value="viet-nam">Việt Nam</option>
-            <option value="nhat-ban">Nhật Bản</option>
-            <option value="thai-lan">Thái Lan</option>
+            {countryList?.map(item => {
+              return (
+                <option key={item._id} value={item.slug}>
+                  {item.name}
+                </option>
+              );
+            })}
           </select>
 
           <select
