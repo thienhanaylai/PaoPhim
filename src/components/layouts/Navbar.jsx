@@ -91,7 +91,7 @@ const Navbar = () => {
             {menuItems?.map(item => {
               return (
                 <div className="my-2" key={item.link}>
-                  <div className="p-[25px] text-amber-50 font-medium" to={item.link}>
+                  <NavLink className="p-[25px] text-amber-50 font-medium" to={item.link}>
                     {item.label}
                   </NavLink>
                 </div>
