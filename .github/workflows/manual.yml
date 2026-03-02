@@ -24,11 +24,11 @@ jobs:
       # Bước 3: Cài đặt các gói cần thiết
       - name: Install dependencies
         run: npm install
-        working-directory: ./vancy-shop
+        working-directory: ./
       # Bước 4: Build dự án React
       - name: Build project
         run: npm run build # Lệnh này tạo ra thư mục 'build'
-        working-directory: ./vancy-shop
+        working-directory: ./
       # Bước 5: Upload thư mục 'build' lên hosting qua FTP
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -36,5 +36,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./ngb.id.vn/dist/ # Thư mục nguồn để upload
+          local-dir: ./dist/ # Thư mục nguồn để upload
           server-dir: /domains/ngb.id.vn/public_html/ # <-- THAY ĐỔI ĐƯỜNG DẪN NÀY
