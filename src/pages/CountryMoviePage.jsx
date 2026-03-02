@@ -6,22 +6,22 @@ import { Pagination } from "antd";
 
 let CategoryList = await movieService.getCategory();
 CategoryList = CategoryList.filter(item => !item.slug.includes("phim-18"));
-const CategoryMoviePage = () => {
+const CountryMoviePage = () => {
   const { type_list } = useParams();
   const [movieData, setMovieData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [countryList, setCountryList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const [filters, setFilters] = useState({
     page: "",
     sort_field: "",
     sort_type: "",
     sort_lang: "",
-    country: "",
+    category: "",
     year: "",
     limit: "28",
   });
-
+  const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 15 }, (_, i) => currentYear - i);
 
@@ -29,11 +29,13 @@ const CategoryMoviePage = () => {
     const fetchApi = async () => {
       try {
         setIsLoading(true);
-        const res = await movieService.getMovieByCategory({
+        const res = await movieService.getMovieByCountry({
           type_list,
           page: currentPage,
           ...filters,
         });
+        const contryList = await movieService.getCountry();
+        setCountryList(contryList);
         setMovieData(res.data);
       } catch (err) {
         console.error("Lỗi:", err);
@@ -51,9 +53,9 @@ const CategoryMoviePage = () => {
 
   const handleFilterChange = e => {
     const { name, value } = e.target;
-    if (name === "category") {
+    if (name === "country") {
       if (value) {
-        navigate(`/the-loai/${value}`);
+        navigate(`/quoc-gia/${value}`);
       } else {
         navigate(`/`);
       }
@@ -62,6 +64,7 @@ const CategoryMoviePage = () => {
     setFilters(prev => ({ ...prev, [name]: value }));
     setCurrentPage(1);
   };
+
   if (isLoading || !movieData || movieData.length === 0) {
     return <SekeletonLoadingLogo />;
   }
@@ -94,7 +97,7 @@ const CategoryMoviePage = () => {
 
           <select
             name="category"
-            value={type_list}
+            value={filters.category}
             onChange={handleFilterChange}
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
@@ -120,17 +123,18 @@ const CategoryMoviePage = () => {
 
           <select
             name="country"
-            value={filters.country}
+            value={type_list}
             onChange={handleFilterChange}
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
             <option value="">Tất cả quốc gia</option>
-            <option value="han-quoc">Hàn Quốc</option>
-            <option value="trung-quoc">Trung Quốc</option>
-            <option value="au-my">Âu Mỹ</option>
-            <option value="viet-nam">Việt Nam</option>
-            <option value="nhat-ban">Nhật Bản</option>
-            <option value="thai-lan">Thái Lan</option>
+            {countryList?.map(item => {
+              return (
+                <option key={item._id} value={item.slug}>
+                  {item.name}
+                </option>
+              );
+            })}
           </select>
 
           <select
@@ -182,4 +186,4 @@ const CategoryMoviePage = () => {
   );
 };
 
-export default CategoryMoviePage;
+export default CountryMoviePage;

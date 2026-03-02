@@ -52,6 +52,23 @@ const movieService = {
     const url = `/v1/api/the-loai/${type_list}?page=${page}&sort_field=${sort_field}&sort_type=${sort_type}&sort_lang=${sort_lang}&country=${country}&year=${year}&limit=${limit}`;
     return axiosClient.get(url);
   },
+  getMovieByCountry: ({
+    type_list = "",
+    page = "",
+    sort_field = "",
+    sort_type = "",
+    sort_lang = "",
+    category = "",
+    year = "",
+    limit = "28",
+  }) => {
+    const url = `/v1/api/quoc-gia/${type_list}?page=${page}&sort_field=${sort_field}&sort_type=${sort_type}&sort_lang=${sort_lang}&category=${category}&year=${year}&limit=${limit}`;
+    return axiosClient.get(url);
+  },
+  getCountry: () => {
+    const url = `/quoc-gia`;
+    return axiosClient.get(url);
+  },
 };
 
 export default movieService;

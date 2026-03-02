@@ -5,6 +5,7 @@ import MoviePage from "../pages/MoviePage";
 import DetailMoviePage from "../pages/DetailMoviePage";
 import VideoStream from "../pages/VideoStreamPage";
 import CategoryMoviePage from "../pages/CategoryMoviePage";
+import CountryMoviePage from "../pages/CountryMoviePage";
 
 const AppRoutes = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const AppRoutes = createBrowserRouter([
       {
         path: "the-loai/:type_list",
         element: <CategoryMoviePage key={"the-loai"} />,
+      },
+      {
+        path: "quoc-gia/:type_list",
+        element: <CountryMoviePage key={"quoc-gia"} />,
       },
       {
         path: "xem-phim/:movieSlug/:episodeSlug",

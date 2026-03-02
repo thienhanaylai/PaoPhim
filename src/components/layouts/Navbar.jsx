@@ -10,6 +10,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [isCategory, setIsCategory] = useState([]);
+  const [isCountry, setIsCountry] = useState([]);
   const [isListMovie, setIsListMovie] = useState([]);
   const [isKeyword, setIsKeyWord] = useState("");
   const navigate = useNavigate();
@@ -17,7 +18,9 @@ const Navbar = () => {
     const fetchApi = async () => {
       try {
         const res = await movieService.getCategory();
+        const res1 = await movieService.getCountry();
         setIsCategory(res);
+        setIsCountry(res1);
       } catch (err) {
         console.error("Lỗi:", err);
       }
@@ -40,7 +43,7 @@ const Navbar = () => {
     { label: "Phim mới", link: "" },
     {
       label: (
-        <Dropdown popupRender={() => <CategoryMenu CategoryList={isCategory} />}>
+        <Dropdown popupRender={() => <CategoryMenu CategoryList={isCategory} type={"the-loai"} />}>
           <span
             onClick={e => {
               e.preventDefault();
@@ -54,6 +57,22 @@ const Navbar = () => {
       ),
       link: "/phim-le$",
     },
+    {
+      label: (
+        <Dropdown popupRender={() => <CategoryMenu CategoryList={isCountry} type={"quoc-gia"} />}>
+          <span
+            onClick={e => {
+              e.preventDefault();
+              navigate("/");
+            }}
+            className="cursor-pointer"
+          >
+            <Space>Quốc gia ▾</Space>
+          </span>
+        </Dropdown>
+      ),
+      link: "/quoc-gia$",
+    },
     { label: "Phim bộ", link: "/phim-bo" },
     { label: "Phim Lẻ", link: "/phim-le" },
     { label: "Đăng nhập", link: "/dang-nhap" },
@@ -61,7 +80,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar animate-fade-down animate-once animate-duration-[500ms] animate-delay-200 animate-ease-in w-full h-[70px] bg-[#0d071f] left-0 top-0 fixed pl-4 pr-4 flex items-center justify-between md:justify-around lg:justify-around z-50">
+      <div className="navbar animate-fade-down animate-once animate-duration-[500ms] animate-delay-200 animate-ease-in w-full h-[70px] bg-[#0d071f]  drop-shadow-lg drop-shadow-indigo-950/50 left-0 top-0 fixed pl-4 pr-4 flex items-center justify-between md:justify-around lg:justify-around z-50">
         <div className="w-fit h-full flex items-center">
           <a onClick={() => setIsOpen(!isOpen)} className="text-white md:hidden block m-4">
             <MenuOutlined />

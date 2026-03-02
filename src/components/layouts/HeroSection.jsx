@@ -15,7 +15,7 @@ const HeroSection = ({ MovieData }) => {
         const top5Movies = MovieData.slice(0, 5);
         const promises = top5Movies.map(async item => {
           const res = await homeService.getMovie({ slug: item.slug });
-          console.log(res);
+
           return {
             ...item,
             content: res.movie.content,
@@ -34,7 +34,7 @@ const HeroSection = ({ MovieData }) => {
   if (!moviesWithDetails || moviesWithDetails.length === 0) {
     return <SekeletonLoadingLogo />;
   }
-  console.log(moviesWithDetails);
+
   return (
     <div className="relative w-full h-[95vh] md:h-[90vh] md:mt-16 overflow-hidden">
       <div
@@ -46,7 +46,7 @@ const HeroSection = ({ MovieData }) => {
       <div className=" px-4 md:px-8 w-full h-full grid grid-cols-4 grid-rows-4 md:grid-cols-5 md:grid-rows-5 items-center gap-3 absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 p-4">
         <div
           key={"name" + isMovie}
-          className="animate-fade-right animate-duration-300 animate-ease-in col-span-3 row-start-3 md:row-start-3 "
+          className="animate-fade-right animate-duration-300 animate-ease-in col-span-3 row-start-3 md:row-start-2 md:row-span-2 "
         >
           <Link
             to={`/phim/${moviesWithDetails[isMovie].slug}`}
@@ -54,7 +54,18 @@ const HeroSection = ({ MovieData }) => {
           >
             {moviesWithDetails[isMovie].name}
           </Link>
-          <p className="text-2xl font-light text-amber-500">{moviesWithDetails[isMovie].origin_name}</p>
+          <p className="text-2xl font-light text-amber-500 mb-2">{moviesWithDetails[isMovie].origin_name}</p>
+          <div className="flex flex-wrap items-center gap-2 mb-2 text-sm">
+            <span className="bg-gray-800 text-amber-500 font-bold px-3 py-1 rounded-md">
+              {moviesWithDetails[isMovie].quality}
+            </span>
+            <span className="bg-gray-800 border border-gray-700 px-3 py-1 rounded-md text-amber-50">
+              {moviesWithDetails[isMovie].lang}
+            </span>
+            <span className="bg-gray-800 border border-gray-700 px-3 py-1 rounded-md text-amber-50">
+              {moviesWithDetails[isMovie].episode_current}
+            </span>
+          </div>
           {moviesWithDetails[isMovie].category.map(item => {
             return (
               <Tag key={item.slug} color={"#ffffff"} variant="outlined" className="m-1! w-fit! bg-[#39405e90]!">

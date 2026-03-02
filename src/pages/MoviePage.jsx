@@ -10,7 +10,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
   const { category } = useParams();
   const [movieData, setMovieData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
     sort_field: "modified.time",
     sort_type: "desc",
@@ -26,6 +26,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
   useEffect(() => {
     const fetchApi = async () => {
       try {
+        setIsLoading(true);
         const res = await movieService.getMoviebyFillter({
           type_list,
           page: currentPage,
@@ -34,6 +35,8 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
         setMovieData(res.data);
       } catch (err) {
         console.error("Lỗi:", err);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchApi();
@@ -50,7 +53,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
     setCurrentPage(1);
   };
 
-  if (!movieData || movieData.length === 0) {
+  if (isLoading || !movieData || movieData.length === 0) {
     return <SekeletonLoadingLogo />;
   }
 
