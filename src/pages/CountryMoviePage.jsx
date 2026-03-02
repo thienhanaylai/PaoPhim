@@ -13,7 +13,6 @@ const CountryMoviePage = () => {
   const [countryList, setCountryList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
-    page: "",
     sort_field: "",
     sort_type: "",
     sort_lang: "",

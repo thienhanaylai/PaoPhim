@@ -39,7 +39,7 @@ const ListMovie = ({ ListMovie, TitleList, slug }) => {
           className={`w-full h-full block md:hidden place-items-center place-content-center hover:scale-105 transition duration-300 ease-in-out`}
         >
           <Link className="block text-center text-amber-50 text-[12px] font-bold " to={`${slug}`}>
-            Xem thêm {`>`}
+            {`>`}
           </Link>
         </div>
       </div>

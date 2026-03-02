@@ -14,7 +14,6 @@ const CategoryMoviePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
-    page: "",
     sort_field: "",
     sort_type: "",
     sort_lang: "",
