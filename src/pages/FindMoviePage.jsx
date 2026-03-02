@@ -21,7 +21,6 @@ const FindMoviePage = ({ type_list = "" }) => {
     year: "",
     limit: 28,
   });
-  console.log(keyword);
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 15 }, (_, i) => currentYear - i);
 
@@ -34,7 +33,6 @@ const FindMoviePage = ({ type_list = "" }) => {
           page: currentPage,
           ...filters,
         });
-        console.log(res);
         const contryList = await movieService.getCountry();
         setCountryList(contryList);
         setMovieData(res.data);
@@ -45,7 +43,7 @@ const FindMoviePage = ({ type_list = "" }) => {
       }
     };
     fetchApi();
-  }, [type_list, currentPage, filters]);
+  }, [keyword, currentPage, filters]);
 
   const onPageChange = pageNumber => {
     setCurrentPage(pageNumber);

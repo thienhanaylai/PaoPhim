@@ -90,7 +90,7 @@ const Navbar = () => {
           >
             {menuItems?.map(item => {
               return (
-                <div className="my-2" key={item.label}>
+                <div className="my-2" key={item.link}>
                   <NavLink className="p-[25px] text-amber-50 font-medium" to={item.link}>
                     {item.label}
                   </NavLink>
@@ -113,11 +113,13 @@ const Navbar = () => {
               className=" border-none! placeholder:text-amber-50!  w-328 md:w-40! lg:w-96!"
               size="large"
               placeholder="Tìm kiếm"
+              value={isKeyword}
               onChange={e => {
                 setIsKeyWord(e.target.value);
               }}
-              onSearch={() => {
-                navigate(`tim-kiem/${isKeyword}`);
+              onSearch={value => {
+                navigate(`tim-kiem/${value}`);
+                setIsKeyWord("");
               }}
               allowClear
             />
