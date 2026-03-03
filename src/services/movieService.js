@@ -31,9 +31,18 @@ const movieService = {
     const url = `/v1/api/danh-sach/${type_list}?page=${page}&sort_field=${sort_field}&sort_type=${sort_type}&sort_lang=${sort_lang}&category=${category}&country=${country}&year=${year}&limit=${limit}`;
     return axiosClient.get(url);
   },
-  getCategory: () => {
+  getCategory: async () => {
     const url = `/the-loai`;
-    return axiosClient.get(url);
+    try {
+      let res = await axiosClient.get(url);
+      if (res && Array.isArray(res)) {
+        res = res.filter(item => !item.slug.includes("phim-18"));
+      }
+      return res;
+    } catch (error) {
+      console.error("Lỗi:", error);
+      return [];
+    }
   },
   getMovieBySearch: ({
     keyword,
@@ -75,9 +84,18 @@ const movieService = {
     const url = `/v1/api/quoc-gia/${type_list}?page=${page}&sort_field=${sort_field}&sort_type=${sort_type}&sort_lang=${sort_lang}&category=${category}&year=${year}&limit=${limit}`;
     return axiosClient.get(url);
   },
-  getCountry: () => {
+  getCountry: async () => {
     const url = `/quoc-gia`;
-    return axiosClient.get(url);
+    try {
+      let res = await axiosClient.get(url);
+      if (res && Array.isArray(res)) {
+        res = res.filter(item => !item.slug.includes("viet-nam"));
+      }
+      return res;
+    } catch (error) {
+      console.error("Lỗi khi lấy quốc gia:", error);
+      return [];
+    }
   },
 };
 

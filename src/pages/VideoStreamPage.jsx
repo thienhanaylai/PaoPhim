@@ -45,7 +45,7 @@ const WatchMoviePage = () => {
   if (!currentEpisode && currentServer.server_data.length > 0) {
     currentEpisode = currentServer.server_data[0];
   }
-  console.log(currentEpisode);
+
   return (
     <div className="min-h-screen bg-[#111114] text-gray-200 pb-20 pt-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col xl:flex-row gap-6">

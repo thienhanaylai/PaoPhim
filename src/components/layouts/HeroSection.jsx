@@ -4,11 +4,25 @@ import homeService from "../../services/movieService";
 import { IoPlayCircle, IoInformationCircleSharp } from "react-icons/io5";
 import SekeletonLoadingLogo from "./SekeletonLoadingLogo";
 import { Link } from "react-router";
-
+import { useSwipeable } from "react-swipeable";
+import tmdb from "../../assets/tmdb.svg";
 const HeroSection = ({ MovieData }) => {
   const [isMovie, setIsMovie] = useState(0);
   const [moviesWithDetails, setMoviesWithDetails] = useState([]);
+  const handlePrev = () => {
+    setIsMovie(prev => (prev === 0 ? moviesWithDetails.length - 1 : prev - 1));
+  };
 
+  const handleNext = () => {
+    setIsMovie(prev => (prev === moviesWithDetails.length - 1 ? 0 : prev + 1));
+  };
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleNext(),
+    onSwipedRight: () => handlePrev(),
+    swipeDuration: 500,
+    preventScrollOnSwipe: true,
+    trackMouse: true,
+  });
   useEffect(() => {
     const fetchAllMoviesDetails = async () => {
       try {
@@ -34,12 +48,11 @@ const HeroSection = ({ MovieData }) => {
   if (!moviesWithDetails || moviesWithDetails.length === 0) {
     return <SekeletonLoadingLogo />;
   }
-
   return (
-    <div className="relative w-full h-[95vh] md:h-[90vh] md:mt-16 overflow-hidden">
+    <div {...handlers} className="relative w-full h-[95vh] md:h-[90vh] md:mt-16 overflow-hidden">
       <div
         key={isMovie}
-        className={`w-full h-full absolute top-0 left-0 right-0 bg-cover bg-center mask-b-from-20% animate-fade-left animate-duration-300 animate-ease-in`}
+        className={`w-full h-full absolute top-0 left-0 right-0 bg-cover bg-center mask-b-from-20% mask-x-from-45%  animate-fade-left animate-duration-300 animate-ease-in`}
         style={{ backgroundImage: `url(https://phimapi.com/image.php?url=${moviesWithDetails[isMovie]?.thumb_url})` }}
       ></div>
 
@@ -56,13 +69,17 @@ const HeroSection = ({ MovieData }) => {
           </Link>
           <p className="text-2xl font-light text-amber-500 mb-2">{moviesWithDetails[isMovie].origin_name}</p>
           <div className="flex flex-wrap items-center gap-2 mb-2 text-sm">
-            <span className="bg-gray-800 text-amber-500 font-bold px-3 py-1 rounded-md">
+            <div className="flex items-center h-7 w-fit bg-gray-800 text-cyan-500 px-3 py-1 font-medium rounded-md">
+              <img src={tmdb} alt="tmdb" className="mr-2 h-4 w-auto" />
+              <span className="leading-none font-bold">{moviesWithDetails[isMovie].tmdb.vote_average.toFixed(1)}</span>
+            </div>
+            <span className="flex items-center h-7 w-fit bg-gray-800 text-amber-500 font-bold px-3 py-1 rounded-md">
               {moviesWithDetails[isMovie].quality}
             </span>
-            <span className="bg-gray-800 border border-gray-700 px-3 py-1 rounded-md text-amber-50">
+            <span className="flex items-center h-7 w-fit bg-gray-800 border border-gray-700 px-3 py-1 rounded-md text-amber-50">
               {moviesWithDetails[isMovie].lang}
             </span>
-            <span className="bg-gray-800 border border-gray-700 px-3 py-1 rounded-md text-amber-50">
+            <span className="flex items-center h-7 w-fit bg-gray-800 border border-gray-700 px-3 py-1 rounded-md text-amber-50">
               {moviesWithDetails[isMovie].episode_current}
             </span>
           </div>
@@ -102,7 +119,7 @@ const HeroSection = ({ MovieData }) => {
             <IoInformationCircleSharp className="hidden md:block ml-4 text-amber-50 text-3xl hover:scale-110 hover:text-amber-500" />
           </a>
         </div>
-        <div className="col-span-4 row-start-4  col-start-1 md:col-span-2 md:col-start-4 md:row-start-4 flex gap-1 items-center">
+        <div className="col-span-4 row-start-4  col-start-1 md:col-span-2 md:col-start-4 md:row-start-4 flex gap-1 items-center ">
           {moviesWithDetails.map((item, index) => {
             return (
               <div key={index} className="w-full h-fit">

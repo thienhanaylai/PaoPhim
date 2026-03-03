@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router";
 import { Pagination } from "antd";
 
 let CategoryList = await movieService.getCategory();
-CategoryList = CategoryList.filter(item => !item.slug.includes("phim-18"));
 const FindMoviePage = ({ type_list = "" }) => {
   const { keyword } = useParams();
   const [movieData, setMovieData] = useState(null);
@@ -156,7 +155,14 @@ const FindMoviePage = ({ type_list = "" }) => {
               className="block text-center text-amber-50 font-medium group hover:text-yellow-500 transition-colors"
               to={`/phim/${item.slug}`}
             >
-              <div className="relative overflow-hidden rounded-2xl mb-2">
+              <div className="relative overflow-hidden rounded-lg mb-2">
+                <div className="absolute top-0 flex items-center h-6 w-fit bg-gray-800 text-orange-400 mt-1 ml-1 px-1 py-1 font-medium rounded-md">
+                  <span className="leading-none font-medium">
+                    {item.episode_current.includes("Hoàn Tất")
+                      ? item.episode_current.match(/\(([^)]+)\)/)?.[1] || "Full"
+                      : item.episode_current}
+                  </span>
+                </div>
                 <img
                   className="object-cover w-full aspect-[2/3] group-hover:scale-105 transition-transform duration-300"
                   src={`https://phimapi.com/image.php?url=https://phimimg.com/${item.poster_url}`}

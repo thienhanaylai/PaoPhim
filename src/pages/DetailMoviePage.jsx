@@ -4,7 +4,7 @@ import { useParams, Link, useNavigate } from "react-router";
 import { Play, Calendar, Clock, Globe, Film, Info } from "lucide-react";
 import movieService from "../services/movieService";
 import SekeletonLoadingLogo from "../components/layouts/SekeletonLoadingLogo";
-
+import tmdb from "../assets/tmdb.svg";
 const MovieDetailPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const MovieDetailPage = () => {
   const { movie, episodes } = movieData;
 
   const firstEpisodeSlug = episodes?.[0]?.server_data?.[0]?.slug || "";
-
+  console.log(movie);
   return (
     <div className="min-h-screen bg-[#111114] text-gray-200 pb-20">
       <div className="relative w-full">
@@ -59,11 +59,19 @@ const MovieDetailPage = () => {
               className="w-full rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.5)] object-cover border border-gray-800"
             />
             <a
-              onClick={() => navigate(`/xem-phim/${movie.slug}/${firstEpisodeSlug}`)}
+              onClick={() => {
+                movie.episode_current?.includes("Trailer") ? "Trailer" : navigate(`/xem-phim/${movie.slug}/${firstEpisodeSlug}`);
+              }}
               className="cursor-pointer w-full mt-6 flex items-center justify-center gap-2 bg-amber-500 text-white py-3 px-6 rounded-lg font-bold text-lg hover:scale-105 hover:text-amber-800! transition-transform shadow-lg"
             >
-              <Play fill="currentColor" size={24} />
-              XEM PHIM
+              {movie.episode_current?.includes("Trailer") ? (
+                "Trailer"
+              ) : (
+                <>
+                  <Play fill="currentColor" size={24} />
+                  XEM PHIM
+                </>
+              )}
             </a>
           </div>
 
@@ -73,6 +81,10 @@ const MovieDetailPage = () => {
               {movie.origin_name} ({movie.year})
             </h2>
             <div className="flex flex-wrap items-center gap-3 mb-6 text-sm">
+              <div className="flex items-center h-7 w-fit bg-gray-800 text-cyan-500 px-3 py-1 font-medium rounded-md">
+                <img src={tmdb} alt="tmdb" className="mr-2 h-4 w-auto" />
+                <span className="leading-none font-bold">{movie.tmdb.vote_average.toFixed(1)}</span>
+              </div>
               <span className="bg-yellow-500 text-black font-bold px-3 py-1 rounded-md">{movie.quality}</span>
               <span className="bg-gray-800 border border-gray-700 px-3 py-1 rounded-md">{movie.lang}</span>
               <span className="bg-gray-800 border border-gray-700 px-3 py-1 rounded-md text-orange-400">
@@ -84,7 +96,7 @@ const MovieDetailPage = () => {
                 <Link
                   key={cat.id}
                   to={`/the-loai/${cat.slug}`}
-                  className="px-3 py-1 bg-white/10 hover:bg-white/20 rounded-full text-sm transition"
+                  className="px-3 py-1 bg-gray-700 md:bg-white/10 hover:bg-white/20 rounded-full text-sm transition"
                 >
                   {cat.name}
                 </Link>

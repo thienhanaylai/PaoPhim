@@ -22,9 +22,16 @@ const ListMovie = ({ ListMovie, TitleList, slug }) => {
               className={`w-full h-full place-items-center hover:scale-105 transition duration-300 ease-in-out`}
             >
               <a
-                className="block text-center text-amber-50 text-[12px] md:text-[18px] md:font-medium "
+                className="block relative text-center text-amber-50 text-[12px] md:text-[18px] md:font-medium "
                 href={`/phim/${item.slug}`}
               >
+                <div className="absolute top-0 flex items-center h-6 w-fit bg-gray-800 text-orange-400 mt-1 ml-1 px-1 py-1 font-medium rounded-md">
+                  <span className="leading-none font-medium">
+                    {item.episode_current.includes("Hoàn Tất")
+                      ? item.episode_current.match(/\(([^)]+)\)/)?.[1] || "Full"
+                      : item.episode_current}
+                  </span>
+                </div>
                 <img
                   className="object-cover w-full h-full rounded-md"
                   src={`https://phimapi.com/image.php?url=https://phimimg.com/${item.poster_url}`}
