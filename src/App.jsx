@@ -1,15 +1,16 @@
 import "./App.css";
-import { Outlet } from "react-router";
+import { Outlet, useRouteError } from "react-router";
 import Navbar from "./components/layouts/Navbar";
 import Footer from "./components/layouts/Footer";
 import ScrollToTop from "./utils/ScrollToTop";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
     <>
       <ScrollToTop />
       <Navbar />
-      <Outlet />
+      {useRouteError() ? <NotFoundPage /> : <Outlet />}
       <Footer />
     </>
   );

@@ -33,6 +33,7 @@ const CountryMoviePage = () => {
           page: currentPage,
           ...filters,
         });
+        if (res.status === "error") return navigate("/404");
         const contryList = await movieService.getCountry();
         setCountryList(contryList);
         setMovieData(res.data);
@@ -67,7 +68,6 @@ const CountryMoviePage = () => {
   if (isLoading || !movieData || movieData.length === 0) {
     return <SekeletonLoadingLogo />;
   }
-
   return (
     <div key={type_list} className="w-full h-full mt-[70px] p-4 sm:p-7">
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 gap-4">

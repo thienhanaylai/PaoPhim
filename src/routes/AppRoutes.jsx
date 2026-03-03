@@ -46,10 +46,10 @@ const AppRoutes = createBrowserRouter([
         path: "tim-kiem/:keyword",
         element: <FindMoviePage />,
       },
-      {
-        path: "*",
-        element: <Navigate to="/" replace />,
-      },
+      // {
+      //   path: "*",
+      //   element: <Navigate to="/" replace />,
+      // },
     ],
   },
 ]);

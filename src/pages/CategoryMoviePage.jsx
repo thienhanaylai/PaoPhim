@@ -34,6 +34,8 @@ const CategoryMoviePage = () => {
           page: currentPage,
           ...filters,
         });
+        console.log(res);
+        if (!res.status) return navigate("/404");
         const contryList = await movieService.getCountry();
         setCountryList(contryList);
         setMovieData(res.data);

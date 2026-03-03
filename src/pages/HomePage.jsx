@@ -37,7 +37,7 @@ const HomePage = () => {
     };
     fetchApi();
   }, []);
-  console.log(moviesData.newMovieBo);
+
   return (
     <>
       <HeroSection MovieData={moviesData.newMovie} />

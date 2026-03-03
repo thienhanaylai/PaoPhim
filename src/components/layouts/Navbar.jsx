@@ -55,7 +55,7 @@ const Navbar = () => {
           </span>
         </Dropdown>
       ),
-      link: "/phim-le$",
+      link: "dropdown1",
     },
     {
       label: (
@@ -71,7 +71,7 @@ const Navbar = () => {
           </span>
         </Dropdown>
       ),
-      link: "/quoc-gia$",
+      link: "dropdown2",
     },
     { label: "Phim bộ", link: "/phim-bo" },
     { label: "Phim Lẻ", link: "/phim-le" },
@@ -91,9 +91,13 @@ const Navbar = () => {
             {menuItems?.map(item => {
               return (
                 <div className="my-2" key={item.link}>
-                  <NavLink className="p-[25px] text-amber-50 font-medium" to={item.link}>
-                    {item.label}
-                  </NavLink>
+                  {item.link.includes("dropdown") ? (
+                    <div className="px-[25px] text-amber-50 font-medium hover:text-[#535bf2]!">{item.label}</div>
+                  ) : (
+                    <NavLink className="p-[25px] text-amber-50 font-medium" to={item.link}>
+                      {item.label}
+                    </NavLink>
+                  )}
                 </div>
               );
             })}
@@ -152,12 +156,18 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        <div className={`hidden md:block `}>
-          {menuItems.map(item => {
+        <div className={`hidden md:flex flex-wrap`}>
+          {menuItems?.map(item => {
             return (
-              <NavLink key={item.link} className="p-[15px] text-amber-50 font-medium" to={item.link}>
-                {item.label}
-              </NavLink>
+              <div key={item.link}>
+                {item.link.includes("dropdown") ? (
+                  <span className="px-[15px]  text-amber-50 font-medium hover:text-[#535bf2]!">{item.label}</span>
+                ) : (
+                  <NavLink className="px-[15px] text-amber-50 font-medium" to={item.link}>
+                    {item.label}
+                  </NavLink>
+                )}
+              </div>
             );
           })}
         </div>
