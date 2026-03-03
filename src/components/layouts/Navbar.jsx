@@ -75,7 +75,7 @@ const Navbar = () => {
     },
     { label: "Phim bộ", link: "/phim-bo" },
     { label: "Phim Lẻ", link: "/phim-le" },
-    { label: "Đăng nhập", link: "/dang-nhap" },
+    // { label: "Đăng nhập", link: "/dang-nhap" },
   ];
 
   return (
