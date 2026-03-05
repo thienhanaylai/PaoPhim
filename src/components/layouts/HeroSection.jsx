@@ -26,7 +26,7 @@ const HeroSection = ({ MovieData }) => {
   useEffect(() => {
     const fetchAllMoviesDetails = async () => {
       try {
-        const top5Movies = MovieData.slice(0, 5);
+        const top5Movies = MovieData.slice(0, 7);
         const promises = top5Movies.map(async item => {
           const res = await homeService.getMovie({ slug: item.slug });
 

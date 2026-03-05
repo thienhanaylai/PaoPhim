@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import HeroSection from "../components/layouts/HeroSection";
 import movieService from "../services/movieService";
 import ListMovie from "../components/layouts/ListMovie";
-
 const HomePage = () => {
   const [moviesData, setMoviesData] = useState({
     newMovie: [],

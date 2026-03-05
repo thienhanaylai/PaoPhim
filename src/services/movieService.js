@@ -1,9 +1,18 @@
 import axiosClient from "../api/axiosConfig";
 
 const movieService = {
-  getNewMovies: () => {
-    const url = "/danh-sach/phim-moi-cap-nhat-v3?page=1";
-    return axiosClient.get(url);
+  getNewMovies: async () => {
+    try {
+      const url = "/danh-sach/phim-moi-cap-nhat-v3?page=1";
+      let res = await axiosClient.get(url);
+      if (res) {
+        res.items = res.items.filter(item => !item.country[0].slug.includes("viet-nam"));
+      }
+      return res;
+    } catch (error) {
+      console.error("Lỗi:", error);
+      return [];
+    }
   },
   getMovie: ({ slug }) => {
     const url = `/phim/${slug}`;
