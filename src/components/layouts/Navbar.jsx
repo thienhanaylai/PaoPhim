@@ -6,6 +6,7 @@ const { Search } = Input;
 import { NavLink, useNavigate } from "react-router";
 import CategoryMenu from "./CategoryMenu";
 import movieService from "../../services/movieService";
+import useDebounce from "../../hooks/useDebounce";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
@@ -15,7 +16,7 @@ const Navbar = () => {
   const [isKeyword, setIsKeyWord] = useState("");
   const [isScroll, setIsScroll] = useState(false);
   const navigate = useNavigate();
-
+  const debouncedQuery = useDebounce(isKeyword, 500);
   useEffect(() => {
     const fetchApi = async () => {
       try {
@@ -30,16 +31,18 @@ const Navbar = () => {
     fetchApi();
   }, []);
   useEffect(() => {
-    const fetchApi = async () => {
-      try {
-        const res = await movieService.getMovieBySearch({ keyword: isKeyword });
-        setIsListMovie(res.data?.items);
-      } catch (err) {
-        console.error("Lỗi:", err);
-      }
-    };
-    fetchApi();
-  }, [isKeyword]);
+    if (debouncedQuery) {
+      const fetchApi = async () => {
+        try {
+          const res = await movieService.getMovieBySearch({ keyword: isKeyword });
+          setIsListMovie(res.data?.items);
+        } catch (err) {
+          console.error("Lỗi:", err);
+        }
+      };
+      fetchApi();
+    }
+  }, [debouncedQuery]);
 
   const menuItems = [
     { label: "Phim mới", link: "" },
@@ -161,8 +164,10 @@ const Navbar = () => {
                   setIsKeyWord(e.target.value);
                 }}
                 onSearch={value => {
-                  navigate(`tim-kiem/${value}`);
-                  setIsKeyWord("");
+                  if (value) {
+                    navigate(`tim-kiem/${value}`);
+                    setIsKeyWord("");
+                  }
                 }}
                 allowClear
               />

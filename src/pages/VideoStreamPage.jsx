@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router";
-import ReactPlayer from "react-player";
 import { Server, ListVideo } from "lucide-react";
 import movieService from "../services/movieService";
 import SekeletonLoadingLogo from "../components/layouts/SekeletonLoadingLogo";
