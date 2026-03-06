@@ -123,7 +123,7 @@ const Navbar = () => {
             })}
           </div>
 
-          <a href="/" className={`${isSearch ? "hidden" : "block"} w-fit h-full`}>
+          <a href="/" className={`${isSearch ? "hidden" : "block"} md:block w-fit h-full`}>
             <img src={logoPao} className="w-auto h-full object-contain" alt="" />
           </a>
         </div>
@@ -167,6 +167,9 @@ const Navbar = () => {
                   if (value) {
                     navigate(`tim-kiem/${value}`);
                     setIsKeyWord("");
+                    if (document.activeElement) {
+                      document.activeElement.blur();
+                    }
                   }
                 }}
                 allowClear
