@@ -106,6 +106,27 @@ const movieService = {
       return [];
     }
   },
+  getMovieTop5: async () => {
+    const hq = `/v1/api/quoc-gia/han-quoc?limit=2`;
+    const tq = `/v1/api/quoc-gia/trung-quoc?limit=2`;
+    const uk = `/v1/api/quoc-gia/au-my?limit=1`;
+    try {
+      let res = await Promise.all([axiosClient.get(hq), axiosClient.get(tq), axiosClient.get(uk)]);
+      let mergedArray = res.flatMap(item => item.data?.items || []);
+      const domainImage = "https://phimimg.com/";
+      let finalArray = mergedArray.map(movie => {
+        return {
+          ...movie,
+          thumb_url: `${domainImage}${movie.thumb_url}`,
+          poster_url: `${domainImage}${movie.poster_url}`,
+        };
+      });
+      return finalArray;
+    } catch (error) {
+      console.error("Lỗi khi lấy quốc gia:", error);
+      return [];
+    }
+  },
 };
 
 export default movieService;

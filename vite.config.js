@@ -8,7 +8,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "axios"],
-          "chart-vendor": ["chart.js", "d3"],
         },
       },
     },

@@ -15,7 +15,7 @@ const HomePage = () => {
     const fetchApi = async () => {
       try {
         const [newMovie, newMovieBo, newMovieLe, newMovieUK, newMovieHan, newMovieTrung] = await Promise.all([
-          movieService.getNewMovies(),
+          movieService.getMovieTop5(),
           movieService.getNewMovieBo(),
           movieService.getNewMovieLe(),
           movieService.getMovieByCountry({ type_list: "au-my", page: 1, limit: "7" }),
@@ -23,7 +23,7 @@ const HomePage = () => {
           movieService.getMovieByCountry({ type_list: "trung-quoc", page: 1, limit: "7" }),
         ]);
         setMoviesData({
-          newMovie: newMovie?.items || [],
+          newMovie: newMovie || [],
           newMovieBo: newMovieBo?.data?.items || [],
           newMovieLe: newMovieLe?.data?.items || [],
           newMovieUK: newMovieUK?.data || [],

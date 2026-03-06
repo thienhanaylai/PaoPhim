@@ -20,6 +20,9 @@ const MovieDetailPage = () => {
           setMovieData(response);
         }
       } catch (error) {
+        if (error.status === 404) {
+          return;
+        }
         console.error("Lỗi khi tải chi tiết phim:", error);
       } finally {
         setLoading(false);
