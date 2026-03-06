@@ -134,7 +134,7 @@ const HeroSection = ({ MovieData }) => {
         <div className="animate-fade-right animate-duration-300 animate-ease-in col-start-2 col-span-3 w-full md:col-span-1 md:col-start-3 row-start-6 md:row-start-5 md:p-3 flex items-center justify-center">
           <button
             onClick={handleScroll}
-            className="animate-bounce animate-duration-[1500ms] animate-ease-in flex flex-col wrap-normal items-center rounded-full gap-1  bg-transparent! hover:border-none! hover:scale-110 hover:text-amber-500 text-white "
+            className=" animate-bounce animate-duration-[1500ms] animate-ease-in flex flex-col wrap-normal items-center rounded-full gap-1  bg-transparent! hover:border-none! hover:scale-110 hover:text-amber-500 text-white "
           >
             Khám phá
             <CaretDownOutlined />

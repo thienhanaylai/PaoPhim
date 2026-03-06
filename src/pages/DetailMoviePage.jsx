@@ -40,7 +40,7 @@ const MovieDetailPage = () => {
   const { movie, episodes } = movieData;
 
   const firstEpisodeSlug = episodes?.[0]?.server_data?.[0]?.slug || "";
-  console.log(movie);
+
   return (
     <div className="min-h-screen bg-[#111114] text-gray-200 pb-20">
       <div className="relative w-full">

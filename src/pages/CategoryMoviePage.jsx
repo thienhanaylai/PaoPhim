@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import movieService from "../services/movieService";
 import SekeletonLoadingLogo from "../components/layouts/SekeletonLoadingLogo";
 import { Link, useParams, useNavigate } from "react-router";
-import { Pagination } from "antd";
+import { ConfigProvider, Pagination } from "antd";
 
-let CategoryList = await movieService.getCategory();
 const CategoryMoviePage = () => {
   const { type_list } = useParams();
   const [movieData, setMovieData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [countryList, setCountryList] = useState([]);
+  const [filterData, setFilterData] = useState({
+    countryList: [],
+    categoryList: [],
+  });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
@@ -34,8 +36,11 @@ const CategoryMoviePage = () => {
           ...filters,
         });
         if (!res.status) return navigate("/404");
-        const contryList = await movieService.getCountry();
-        setCountryList(contryList);
+        const [contryList, categoryList] = await Promise.all([movieService.getCountry(), movieService.getCategory()]);
+        setFilterData({
+          countryList: contryList,
+          categoryList: categoryList,
+        });
         setMovieData(res.data);
       } catch (err) {
         console.error("Lỗi:", err);
@@ -101,7 +106,7 @@ const CategoryMoviePage = () => {
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
             <option value="">Tất cả thể loại</option>
-            {CategoryList.map(cat => (
+            {filterData.categoryList?.map(cat => (
               <option key={cat._id} value={cat.slug}>
                 {cat.name}
               </option>
@@ -127,7 +132,7 @@ const CategoryMoviePage = () => {
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
             <option value="">Tất cả quốc gia</option>
-            {countryList?.map(item => {
+            {filterData.countryList?.map(item => {
               return (
                 <option key={item._id} value={item.slug}>
                   {item.name}
@@ -176,6 +181,7 @@ const CategoryMoviePage = () => {
                   className="object-cover w-full aspect-[2/3] group-hover:scale-105 transition-transform duration-300"
                   src={`https://phimapi.com/image.php?url=https://phimimg.com/${item.poster_url}`}
                   alt={item.name}
+                  loading="lazy"
                 />
               </div>
               <span className="line-clamp-2 text-sm">{item.name}</span>

@@ -37,6 +37,7 @@ const ListMovie = ({ ListMovie, TitleList, slug, id = "" }) => {
                   className="object-cover w-full h-full rounded-md"
                   src={`https://phimapi.com/image.php?url=https://phimimg.com/${item.poster_url}`}
                   alt=""
+                  loading="lazy"
                 />
                 {item.name}
               </a>

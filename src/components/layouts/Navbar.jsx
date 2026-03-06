@@ -1,7 +1,7 @@
 import logoPao from "../../assets/logoPaoNgang.png";
 import { Input, Dropdown, Space, ConfigProvider } from "antd";
 import { CloseOutlined, MenuOutlined, SearchOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 const { Search } = Input;
 import { NavLink, useNavigate } from "react-router";
 import CategoryMenu from "./CategoryMenu";
@@ -96,14 +96,31 @@ const Navbar = () => {
 
     return () => window.removeEventListener("scroll", updateScrollDirection);
   }, []);
+  const menuRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (isOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
   return (
     <>
       <div
         className={`${isScroll ? "bg-linear-to-t from-blue-950/15  to-[#0d071f] backdrop-blur-md fixed " : "absolute bg-transparent "}transition duration-300 ease-in-out navbar animate-fade-down animate-once animate-duration-[500ms] animate-delay-200 animate-ease-in w-full h-[70px]  left-0 top-0 pl-4 pr-4 flex items-center justify-between md:justify-around lg:justify-around z-50`}
       >
-        <div className="w-fit h-full flex items-center">
-          <a onClick={() => setIsOpen(!isOpen)} className="text-white md:hidden block m-4">
-            <MenuOutlined />
+        <div ref={menuRef} className="w-fit h-full flex items-center ">
+          <a
+            onClick={() => setIsOpen(!isOpen)}
+            className="transition ease-in-out duration-500 text-white md:hidden block p-4 hover:text-neutral-50! focus:text-neutral-50! "
+          >
+            {isOpen ? <CloseOutlined /> : <MenuOutlined />}
           </a>
           <div
             className={`${isOpen ? "block" : "hidden"} block md:hidden w-fit h-auto p-2 ml-1 rounded-lg flex flex-col bg-[#0d071f] fixed left-0 top-[70px]`}
@@ -192,6 +209,7 @@ const Navbar = () => {
                         src={`https://phimapi.com/image.php?url=https://phimimg.com/${movie.poster_url} `}
                         alt={movie.name}
                         className="w-12 h-16 object-cover rounded-sm"
+                        loading="lazy"
                       />
                       <div className="flex flex-col overflow-hidden">
                         <span className="text-sm font-semibold text-amber-50 truncate">{movie.name}</span>

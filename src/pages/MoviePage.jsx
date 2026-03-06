@@ -4,13 +4,15 @@ import SekeletonLoadingLogo from "../components/layouts/SekeletonLoadingLogo";
 import { Link, useParams } from "react-router";
 import { Pagination } from "antd";
 
-let CategoryList = await movieService.getCategory();
 const MoviePage = ({ type_list = "phim-bo" }) => {
   const { category } = useParams();
   const [movieData, setMovieData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [countryList, setCountryList] = useState([]);
+  const [filterData, setFilterData] = useState({
+    countryList: [],
+    categoryList: [],
+  });
   const [filters, setFilters] = useState({
     sort_field: "modified.time",
     sort_type: "desc",
@@ -32,8 +34,11 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
           page: currentPage,
           ...filters,
         });
-        const contryList = await movieService.getCountry();
-        setCountryList(contryList);
+        const [contryList, categoryList] = await Promise.all([movieService.getCountry(), movieService.getCategory()]);
+        setFilterData({
+          countryList: contryList,
+          categoryList: categoryList,
+        });
         setMovieData(res.data);
       } catch (err) {
         console.error("Lỗi:", err);
@@ -60,7 +65,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
   }
 
   return (
-    <div key={type_list} className="w-full h-full pt-[70px] p-4 ">
+    <div key={type_list} className="w-full h-full pt-[70px] p-4">
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 gap-4">
         <p className="text-2xl text-amber-50 font-medium whitespace-nowrap">{movieData.titlePage}</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 w-full xl:w-auto">
@@ -92,7 +97,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
             <option value="">Tất cả thể loại</option>
-            {CategoryList.map(cat => (
+            {filterData.categoryList?.map(cat => (
               <option key={cat._id} value={cat.slug}>
                 {cat.name}
               </option>
@@ -118,7 +123,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
             className="bg-gray-800 text-gray-300 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2 border border-gray-700 outline-none"
           >
             <option value="">Tất cả quốc gia</option>
-            {countryList?.map(item => {
+            {filterData.countryList?.map(item => {
               return (
                 <option key={item._id} value={item.slug}>
                   {item.name}
@@ -167,6 +172,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
                   className="object-cover w-full aspect-[2/3] group-hover:scale-105 transition-transform duration-300"
                   src={`https://phimapi.com/image.php?url=https://phimimg.com/${item.poster_url}`}
                   alt={item.name}
+                  loading="lazy"
                 />
               </div>
               <span className="line-clamp-2 text-sm">{item.name}</span>
