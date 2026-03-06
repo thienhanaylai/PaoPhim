@@ -93,7 +93,7 @@ const WatchMoviePage = () => {
                     onClick={() => setCurrentServerIndex(index)}
                     className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                       currentServerIndex === index
-                        ? "bg-yellow-500 text-amber-500"
+                        ? "bg-yellow-500 text-amber-800"
                         : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white"
                     }`}
                   >
@@ -115,7 +115,7 @@ const WatchMoviePage = () => {
                       }}
                       className={`col-span-1 py-2 text-center rounded-md text-sm font-medium transition-colors border ${
                         isActive
-                          ? "bg-yellow-500 text-amber-500 border-yellow-500"
+                          ? "bg-yellow-500 text-amber-800 border-yellow-500"
                           : "bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700"
                       }`}
                     >

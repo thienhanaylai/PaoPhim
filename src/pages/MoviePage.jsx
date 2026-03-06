@@ -60,7 +60,7 @@ const MoviePage = ({ type_list = "phim-bo" }) => {
   }
 
   return (
-    <div key={type_list} className="w-full h-full mt-[70px] p-4 sm:p-7">
+    <div key={type_list} className="w-full h-full pt-[70px] p-4 ">
       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 gap-4">
         <p className="text-2xl text-amber-50 font-medium whitespace-nowrap">{movieData.titlePage}</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 w-full xl:w-auto">

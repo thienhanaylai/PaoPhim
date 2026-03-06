@@ -1,12 +1,14 @@
 import App from "../App";
 import HomePage from "../pages/HomePage";
-import { createBrowserRouter, Navigate } from "react-router";
-import MoviePage from "../pages/MoviePage";
-import DetailMoviePage from "../pages/DetailMoviePage";
-import VideoStream from "../pages/VideoStreamPage";
-import CategoryMoviePage from "../pages/CategoryMoviePage";
-import CountryMoviePage from "../pages/CountryMoviePage";
-import FindMoviePage from "../pages/FindMoviePage";
+import { createBrowserRouter } from "react-router";
+import { lazy, Suspense } from "react";
+import { Skeleton } from "antd";
+const MoviePage = lazy(() => import("../pages/MoviePage"));
+const DetailMoviePage = lazy(() => import("../pages/DetailMoviePage"));
+const VideoStream = lazy(() => import("../pages/VideoStreamPage"));
+const CategoryMoviePage = lazy(() => import("../pages/CategoryMoviePage"));
+const CountryMoviePage = lazy(() => import("../pages/CountryMoviePage"));
+const FindMoviePage = lazy(() => import("../pages/FindMoviePage"));
 
 const AppRoutes = createBrowserRouter([
   {
@@ -20,31 +22,101 @@ const AppRoutes = createBrowserRouter([
       },
       {
         path: "phim-bo",
-        element: <MoviePage key={"phim-bo"} type_list="phim-bo" />,
+        element: (
+          <Suspense
+            fallback={
+              <div className="loading">
+                <Skeleton />
+              </div>
+            }
+          >
+            <MoviePage key={"phim-bo"} type_list="phim-bo" />
+          </Suspense>
+        ),
       },
       {
         path: "phim-le",
-        element: <MoviePage key={"phim-le"} type_list="phim-le" />,
+        element: (
+          <Suspense
+            fallback={
+              <div className="loading">
+                <Skeleton />
+              </div>
+            }
+          >
+            <MoviePage key={"phim-le"} type_list="phim-le" />
+          </Suspense>
+        ),
       },
       {
         path: "the-loai/:type_list",
-        element: <CategoryMoviePage key={"the-loai"} />,
+        element: (
+          <Suspense
+            fallback={
+              <div className="loading">
+                <Skeleton />
+              </div>
+            }
+          >
+            <CategoryMoviePage key={"the-loai"} />
+          </Suspense>
+        ),
       },
       {
         path: "quoc-gia/:type_list",
-        element: <CountryMoviePage key={"quoc-gia"} />,
+        element: (
+          <Suspense
+            fallback={
+              <div className="loading">
+                <Skeleton />
+              </div>
+            }
+          >
+            <CountryMoviePage key={"quoc-gia"} />
+          </Suspense>
+        ),
       },
       {
         path: "xem-phim/:movieSlug/:episodeSlug",
-        element: <VideoStream />,
+        element: (
+          <Suspense
+            fallback={
+              <div className="loading">
+                <Skeleton />
+              </div>
+            }
+          >
+            <VideoStream />
+          </Suspense>
+        ),
       },
       {
         path: "phim/:slug",
-        element: <DetailMoviePage />,
+        element: (
+          <Suspense
+            fallback={
+              <div className="loading">
+                <Skeleton />
+              </div>
+            }
+          >
+            <DetailMoviePage />
+          </Suspense>
+        ),
       },
       {
         path: "tim-kiem/:keyword",
-        element: <FindMoviePage />,
+        element: (
+          <Suspense
+            fallback={
+              <div className="loading">
+                <Skeleton />
+              </div>
+            }
+          >
+            <FindMoviePage />
+          </Suspense>
+        ),
       },
       // {
       //   path: "*",

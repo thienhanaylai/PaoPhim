@@ -1,8 +1,9 @@
+import { CaretRightOutlined } from "@ant-design/icons";
 import { Link } from "react-router";
 
-const ListMovie = ({ ListMovie, TitleList, slug }) => {
+const ListMovie = ({ ListMovie, TitleList, slug, id = "" }) => {
   return (
-    <div className="relative w-full h-full pb-7 ">
+    <div id={id} className="relative w-full h-full pb-7 scroll-mt-[70px]">
       <div className="flex items-center justify-between mx-3">
         <Link className="row-start-1 col-start-1 col-span-3 text-2xl font-medium text-amber-50 h-fit" to={slug}>
           {TitleList}
@@ -14,7 +15,7 @@ const ListMovie = ({ ListMovie, TitleList, slug }) => {
           Xem thêm {">"}
         </Link>
       </div>
-      <div className="p-5 grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7  gap-3  from-white to-zinc-900 to-75% z-10">
+      <div className="p-5 grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7  gap-3  from-white to-zinc-900 to-75% z-10">
         {ListMovie?.slice(0, 7).map(item => {
           return (
             <div
@@ -22,7 +23,7 @@ const ListMovie = ({ ListMovie, TitleList, slug }) => {
               className={`w-full h-full place-items-center hover:scale-105 transition duration-300 ease-in-out`}
             >
               <a
-                className="block relative text-center text-amber-50 text-[12px] md:text-[18px] md:font-medium "
+                className="block relative text-center text-amber-50 text-[12px] md:text-[16px] md:font-medium "
                 href={`/phim/${item.slug}`}
               >
                 <div className="absolute top-0 flex items-center h-6 w-fit bg-gray-800 text-orange-400 mt-1 ml-1 px-1 py-1 font-medium rounded-md">
@@ -43,10 +44,14 @@ const ListMovie = ({ ListMovie, TitleList, slug }) => {
           );
         })}
         <div
-          className={`w-full h-full block md:hidden place-items-center place-content-center hover:scale-105 transition duration-300 ease-in-out`}
+          className={`w-full h-full block relative md:hidden place-items-center place-content-center hover:scale-105 transition duration-300 ease-in-out`}
         >
-          <Link className="block text-center text-amber-50 text-[12px] font-bold " to={`${slug}`}>
-            {`>`}
+          <Link
+            className="block w-full h-full top-[50%] absolute text-center text-amber-50 text-[12px] font-bold "
+            to={`${slug}`}
+          >
+            Xem thêm
+            <CaretRightOutlined />
           </Link>
         </div>
       </div>

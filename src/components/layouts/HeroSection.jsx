@@ -6,8 +6,19 @@ import SekeletonLoadingLogo from "./SekeletonLoadingLogo";
 import { Link } from "react-router";
 import { useSwipeable } from "react-swipeable";
 import tmdb from "../../assets/tmdb.svg";
+import { CaretDownOutlined, DownOutlined } from "@ant-design/icons";
 const HeroSection = ({ MovieData }) => {
   const [isMovie, setIsMovie] = useState(0);
+
+  const handleScroll = () => {
+    const targetElement = document.getElementById("section1");
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.warn("Đang ở trang khác, không tìm thấy danh sách phim");
+    }
+  };
+
   const [moviesWithDetails, setMoviesWithDetails] = useState([]);
   const handlePrev = () => {
     setIsMovie(prev => (prev === 0 ? moviesWithDetails.length - 1 : prev - 1));
@@ -26,7 +37,7 @@ const HeroSection = ({ MovieData }) => {
   useEffect(() => {
     const fetchAllMoviesDetails = async () => {
       try {
-        const top5Movies = MovieData.slice(0, 7);
+        const top5Movies = MovieData.slice(0, 5);
         const promises = top5Movies.map(async item => {
           const res = await homeService.getMovie({ slug: item.slug });
 
@@ -48,18 +59,19 @@ const HeroSection = ({ MovieData }) => {
   if (!moviesWithDetails || moviesWithDetails.length === 0) {
     return <SekeletonLoadingLogo />;
   }
+
   return (
-    <div {...handlers} className="relative w-full h-[95vh] md:h-[90vh] md:mt-16 overflow-hidden">
+    <div {...handlers} className="relative w-full h-[95vh] md:h-screen overflow-hidden">
       <div
         key={isMovie}
-        className={`w-full h-full absolute top-0 left-0 right-0 bg-cover bg-center mask-b-from-20% mask-x-from-45%  animate-fade-left animate-duration-300 animate-ease-in`}
+        className={`w-full h-full absolute top-0 left-0 right-0 bg-cover bg-center mask-t-from-90% mask-b-from-20% mask-x-from-45%  animate-fade-left animate-duration-300 animate-ease-in`}
         style={{ backgroundImage: `url(https://phimapi.com/image.php?url=${moviesWithDetails[isMovie]?.thumb_url})` }}
       ></div>
 
-      <div className=" px-4 md:px-8 w-full h-full grid grid-cols-4 grid-rows-4 md:grid-cols-5 md:grid-rows-5 items-center gap-3 absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 p-4">
+      <div className=" px-4 md:px-8 w-full h-full grid grid-cols-5 grid-rows-6 md:grid-cols-5 md:grid-rows-5 items-center gap-3 absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 p-4">
         <div
           key={"name" + isMovie}
-          className="animate-fade-right animate-duration-300 animate-ease-in col-span-3 row-start-3 md:row-start-2 md:row-span-2 "
+          className="animate-fade-right animate-duration-300 animate-ease-in col-start-1 row-span-2 col-span-full row-start-3 md:row-start-2 md:row-span-2 "
         >
           <Link
             to={`/phim/${moviesWithDetails[isMovie].slug}`}
@@ -110,16 +122,25 @@ const HeroSection = ({ MovieData }) => {
         </div>
         <div
           key={"playbtn" + isMovie}
-          className="animate-fade-right animate-duration-300 animate-ease-in col-start-4 md:col-start-1 row-start-3 md:row-start-5 md:p-3 md:flex md:items-center"
+          className="animate-fade-right animate-duration-300 hidden animate-ease-in col-start-5 md:col-start-1 row-start-3 md:row-start-5 md:p-3 w-auto md:flex justify-start md:items-center"
         >
           <a href={`/phim/${moviesWithDetails[isMovie].slug}`}>
-            <IoPlayCircle className="text-amber-600 mask-b-from-50% mask-radial-[50%_90%] mask-radial-from-80% text-8xl hover:scale-110 hover:text-amber-500" />
+            <IoPlayCircle className="text-amber-600 mask-b-from-50% mask-radial-[50%_90%] mask-radial-from-80% text-8xl hover:scale-110 hover:text-amber-500 " />
           </a>
           <a href={`/phim/${moviesWithDetails[isMovie].slug}`}>
             <IoInformationCircleSharp className="hidden md:block ml-4 text-amber-50 text-3xl hover:scale-110 hover:text-amber-500" />
           </a>
         </div>
-        <div className="col-span-4 row-start-4  col-start-1 md:col-span-2 md:col-start-4 md:row-start-4 flex gap-1 items-center ">
+        <div className="animate-fade-right animate-duration-300 animate-ease-in col-start-2 col-span-3 w-full md:col-span-1 md:col-start-3 row-start-6 md:row-start-5 md:p-3 flex items-center justify-center">
+          <button
+            onClick={handleScroll}
+            className="animate-bounce animate-duration-[1500ms] animate-ease-in flex flex-col wrap-normal items-center rounded-full gap-1  bg-transparent! hover:border-none! hover:scale-110 hover:text-amber-500 text-white "
+          >
+            Khám phá
+            <CaretDownOutlined />
+          </button>
+        </div>
+        <div className="col-span-5 row-start-5 col-start-1 md:col-span-2 md:col-start-4 md:row-start-4 flex gap-1 items-center ">
           {moviesWithDetails.map((item, index) => {
             return (
               <div key={index} className="w-full h-fit">

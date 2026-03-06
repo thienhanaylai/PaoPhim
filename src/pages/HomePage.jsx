@@ -40,7 +40,7 @@ const HomePage = () => {
   return (
     <>
       <HeroSection MovieData={moviesData.newMovie} />
-      <ListMovie ListMovie={moviesData.newMovieBo} TitleList={"Phim Bộ"} slug={"phim-bo"} />
+      <ListMovie id="section1" ListMovie={moviesData.newMovieBo} TitleList={"Phim Bộ"} slug={"phim-bo"} />
       <ListMovie ListMovie={moviesData.newMovieLe} TitleList={"Phim Lẻ"} slug={"phim-le"} />
       <ListMovie
         ListMovie={moviesData.newMovieUK?.items}

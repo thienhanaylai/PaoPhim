@@ -1,6 +1,6 @@
 import logoPao from "../../assets/logoPaoNgang.png";
-import { Input, Button, Col, Row, Dropdown, Space } from "antd";
-import { CloseOutlined, DownOutlined, MenuOutlined, SearchOutlined, SmileOutlined } from "@ant-design/icons";
+import { Input, Dropdown, Space, ConfigProvider } from "antd";
+import { CloseOutlined, MenuOutlined, SearchOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 const { Search } = Input;
 import { NavLink, useNavigate } from "react-router";
@@ -13,7 +13,9 @@ const Navbar = () => {
   const [isCountry, setIsCountry] = useState([]);
   const [isListMovie, setIsListMovie] = useState([]);
   const [isKeyword, setIsKeyWord] = useState("");
+  const [isScroll, setIsScroll] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchApi = async () => {
       try {
@@ -77,10 +79,25 @@ const Navbar = () => {
     { label: "Phim Lẻ", link: "/phim-le" },
     // { label: "Đăng nhập", link: "/dang-nhap" },
   ];
+  useEffect(() => {
+    const updateScrollDirection = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 10) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    };
 
+    window.addEventListener("scroll", updateScrollDirection);
+
+    return () => window.removeEventListener("scroll", updateScrollDirection);
+  }, []);
   return (
     <>
-      <div className="navbar animate-fade-down animate-once animate-duration-[500ms] animate-delay-200 animate-ease-in w-full h-[70px] bg-[#0d071f]  drop-shadow-lg drop-shadow-indigo-950/50 left-0 top-0 fixed pl-4 pr-4 flex items-center justify-between md:justify-around lg:justify-around z-50">
+      <div
+        className={`${isScroll ? "bg-linear-to-t from-blue-950/15  to-[#0d071f] backdrop-blur-md fixed " : "absolute bg-transparent "}transition duration-300 ease-in-out navbar animate-fade-down animate-once animate-duration-[500ms] animate-delay-200 animate-ease-in w-full h-[70px]  left-0 top-0 pl-4 pr-4 flex items-center justify-between md:justify-around lg:justify-around z-50`}
+      >
         <div className="w-fit h-full flex items-center">
           <a onClick={() => setIsOpen(!isOpen)} className="text-white md:hidden block m-4">
             <MenuOutlined />
@@ -113,20 +130,43 @@ const Navbar = () => {
           </a>
 
           <div className={`${isSearch ? "block" : "hidden"} relative md:block`}>
-            <Search
-              className=" border-none! placeholder:text-amber-50!  w-328 md:w-40! lg:w-96!"
-              size="large"
-              placeholder="Tìm kiếm"
-              value={isKeyword}
-              onChange={e => {
-                setIsKeyWord(e.target.value);
+            <ConfigProvider
+              theme={{
+                components: {
+                  Input: {
+                    colorBgContainer: "transparent",
+                    activeBg: "#ffffff6c",
+                    hoverBg: "#ffffff6c",
+                    colorBorder: "#ffffff",
+                    activeBorderColor: "#fff",
+                    hoverBorderColor: "#fff",
+                    colorText: "#ffffff",
+                    colorTextPlaceholder: "#fffbeb",
+                  },
+                  Button: {
+                    defaultHoverBorderColor: "#fff",
+                    defaultBg: "transparent",
+                    defaultColor: "#fff",
+                    defaultHoverColor: "#000",
+                  },
+                },
               }}
-              onSearch={value => {
-                navigate(`tim-kiem/${value}`);
-                setIsKeyWord("");
-              }}
-              allowClear
-            />
+            >
+              <Search
+                className=" placeholder:text-amber-50!   w-328 md:w-40! lg:w-96!"
+                size="large"
+                placeholder="Tìm kiếm"
+                value={isKeyword}
+                onChange={e => {
+                  setIsKeyWord(e.target.value);
+                }}
+                onSearch={value => {
+                  navigate(`tim-kiem/${value}`);
+                  setIsKeyWord("");
+                }}
+                allowClear
+              />
+            </ConfigProvider>
             {isKeyword && isListMovie && isListMovie.length > 0 && (
               <div className="absolute top-full left-0 w-full mt-1 bg-[#10112c] rounded-md shadow-lg z-50 max-h-[400px] overflow-y-auto">
                 <div className="flex flex-col py-2">
