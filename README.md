@@ -1,16 +1,37 @@
-# React + Vite
+**🎬 PaoPhim - Movie Streaming Platform**
+**PaoPhim** là một ứng dụng xem phim trực tuyến hiện đại được xây dựng với mục tiêu mang lại trải nghiệm người dùng mượt mà, tốc độ phản hồi nhanh và giao diện bắt mắt.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+📍 **Demo:** paophim.app
 
-Currently, two official plugins are available:
+✨ **Tính năng nổi bật**
+🎥 **Xem phim đa nền tảng:** Hỗ trợ xem phim với trình phát video tối ưu, cho phép chọn nhiều server và tập phim khác nhau.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🎨 **Giao diện Hiện đại (Modern UI):** Sử dụng hệ màu Dark Mode với tông cam/vàng làm điểm nhấn, mang lại cảm giác điện ảnh.
 
-## React Compiler
+📱 **Thiết kế Responsive:** Tương thích hoàn toàn với mọi thiết bị từ Desktop, Tablet đến Mobile nhờ Tailwind CSS.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+⚡ **Hiệu ứng chuyển cảnh:** Tích hợp các hiệu ứng Fade In, Fade Left khi điều hướng và chuyển đổi giữa các phim.
 
-## Expanding the ESLint configuration
+🔍 **Tìm kiếm & Phân loại:** Hệ thống điều hướng thông minh với Navbar cố định, tự động thay đổi độ trong suốt khi cuộn trang.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+⏳ **Tối ưu trải nghiệm chờ:** Sử dụng hiệu ứng Skeleton Loading (Pulse) trong quá trình tải dữ liệu từ API, giúp giao diện không bị giật lag.
+
+🛠 **Công nghệ sử dụng**
+Dự án được xây dựng dựa trên các công nghệ thực tiễn và phổ biến hiện nay:
+
+**Frontend Framework:** React.js
+
+**Styling:** Tailwind CSS (Utility-first CSS framework)
+
+**Routing:** React Router Dom (Quản lý điều hướng trang)
+
+**Icons & UI:** Kết hợp các thư viện icon hiện đại và các component tùy chỉnh.
+
+**API Integration:** Fetch dữ liệu phim thời gian thực.
+
+📧 **Liên hệ**
+Nếu bạn có bất kỳ câu hỏi nào về dự án, vui lòng liên hệ với mình qua:
+
+**Website:** paophim.app
+
+Dự án này được phát triển như một phần trong hành trình trở thành Web Developer của mình. Cảm ơn bạn đã ghé thăm!
