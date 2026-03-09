@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const authAxios = axios.create({
-  baseURL: import.meta.env.VITE_PAOPIHM_API,
+  baseURL: import.meta.env.VITE_PAOPHIM_API,
   headers: { "Content-Type": "application/json" },
 });
 

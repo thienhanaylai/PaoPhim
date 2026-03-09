@@ -27,6 +27,8 @@ jobs:
         working-directory: ./
       # Bước 4: Build dự án React
       - name: Build project
+        env:
+          VITE_PAOPHIM_API: ${{ secrets.VITE_PAOPHIM_API }}
         run: npm run build # Lệnh này tạo ra thư mục 'build'
         working-directory: ./
       # Bước 5: Upload thư mục 'build' lên hosting qua FTP
