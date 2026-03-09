@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams, Link, useNavigate } from "react-router";
 
 import { Play, Calendar, Clock, Globe, Film, Info } from "lucide-react";
@@ -46,6 +47,19 @@ const MovieDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-[#111114] text-gray-200 pb-20">
+      <Helmet>
+        <title>{`${movie.name} (${movie.year}) - PaoPhim`}</title>
+        <meta
+          name="description"
+          content={`Xem phim ${movie.name} - ${movie.origin_name} (${movie.year}) ${movie.quality} ${movie.lang} miễn phí tại PaoPhim. ${movie.content?.substring(0, 150)}`}
+        />
+        <meta property="og:title" content={`${movie.name} (${movie.year}) - PaoPhim`} />
+        <meta
+          property="og:description"
+          content={`Xem phim ${movie.name} - ${movie.origin_name} (${movie.year}) miễn phí tại PaoPhim`}
+        />
+        <meta property="og:image" content={`https://phimapi.com/image.php?url=${movie.poster_url}`} />
+      </Helmet>
       <div className="relative w-full">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-20 blur-sm"

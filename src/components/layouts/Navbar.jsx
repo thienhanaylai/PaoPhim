@@ -1,12 +1,13 @@
 import logoPao from "../../assets/logoPaoNgang.png";
-import { Input, Dropdown, Space, ConfigProvider } from "antd";
-import { CloseOutlined, MenuOutlined, SearchOutlined } from "@ant-design/icons";
+import { Input, Dropdown, Space, ConfigProvider, Avatar } from "antd";
+import { CloseOutlined, MenuOutlined, SearchOutlined, UserOutlined, LogoutOutlined, HeartOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 const { Search } = Input;
 import { NavLink, useNavigate } from "react-router";
 import CategoryMenu from "./CategoryMenu";
 import movieService from "../../services/movieService";
 import useDebounce from "../../hooks/useDebounce";
+import { useAuth } from "../../context/AuthContext";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
@@ -17,6 +18,7 @@ const Navbar = () => {
   const [isScroll, setIsScroll] = useState(false);
   const navigate = useNavigate();
   const debouncedQuery = useDebounce(isKeyword, 500);
+  const { user, isAuthenticated, logout } = useAuth();
   useEffect(() => {
     const fetchApi = async () => {
       try {
@@ -48,39 +50,85 @@ const Navbar = () => {
     { label: "Phim mới", link: "" },
     {
       label: (
-        <Dropdown popupRender={() => <CategoryMenu CategoryList={isCategory} type={"the-loai"} />}>
-          <span
-            onClick={e => {
-              e.preventDefault();
-              navigate("/");
-            }}
-            className="cursor-pointer"
+        <ConfigProvider
+          theme={{
+            components: {
+              Dropdown: { colorBgElevated: "#1a1a2e", colorText: "#fff", colorTextDisabled: "#666" },
+            },
+          }}
+        >
+          <Dropdown
+            arrow={{ pointAtCenter: true }}
+            popupRender={() => <CategoryMenu CategoryList={isCategory} type={"the-loai"} />}
           >
-            <Space>Thể Loại ▾</Space>
-          </span>
-        </Dropdown>
+            <span
+              onClick={e => {
+                e.preventDefault();
+                navigate("/");
+              }}
+              className="cursor-pointer"
+            >
+              <Space>Thể Loại ▾</Space>
+            </span>
+          </Dropdown>
+        </ConfigProvider>
       ),
       link: "dropdown1",
     },
     {
       label: (
-        <Dropdown popupRender={() => <CategoryMenu CategoryList={isCountry} type={"quoc-gia"} />}>
-          <span
-            onClick={e => {
-              e.preventDefault();
-              navigate("/");
-            }}
-            className="cursor-pointer"
+        <ConfigProvider
+          theme={{
+            components: {
+              Dropdown: { colorBgElevated: "#1a1a2e", colorText: "#fff", colorTextDisabled: "#666" },
+            },
+          }}
+        >
+          <Dropdown
+            arrow={{ pointAtCenter: true }}
+            popupRender={() => <CategoryMenu CategoryList={isCountry} type={"quoc-gia"} />}
           >
-            <Space>Quốc gia ▾</Space>
-          </span>
-        </Dropdown>
+            <span
+              onClick={e => {
+                e.preventDefault();
+                navigate("/");
+              }}
+              className="cursor-pointer"
+            >
+              <Space>Quốc gia ▾</Space>
+            </span>
+          </Dropdown>
+        </ConfigProvider>
       ),
       link: "dropdown2",
     },
     { label: "Phim bộ", link: "/phim-bo" },
     { label: "Phim Lẻ", link: "/phim-le" },
-    // { label: "Đăng nhập", link: "/dang-nhap" },
+  ];
+
+  const userMenuItems = [
+    {
+      key: "profile",
+      label: <span className="text-white font-medium">Trang cá nhân</span>,
+      icon: <UserOutlined className="text-amber-400" />,
+      onClick: () => navigate("/trang-ca-nhan"),
+    },
+    {
+      key: "favorite",
+      label: <span className="text-white font-medium">Phim yêu thích</span>,
+      icon: <HeartOutlined className="text-red-400" />,
+      onClick: () => navigate("/phim-yeu-thich"),
+    },
+    {
+      key: "logout",
+      label: <span className="text-white font-medium">Đăng xuất</span>,
+      icon: <LogoutOutlined className="text-amber-400" />,
+      danger: true,
+      onClick: () => {
+        logout();
+        navigate("/");
+      },
+    },
   ];
   useEffect(() => {
     const updateScrollDirection = () => {
@@ -113,17 +161,17 @@ const Navbar = () => {
   return (
     <>
       <div
-        className={`${isScroll ? "bg-linear-to-t from-blue-950/15  to-[#0d071f] backdrop-blur-md fixed " : "absolute bg-transparent "}transition duration-300 ease-in-out navbar animate-fade-down animate-once animate-duration-[500ms] animate-delay-200 animate-ease-in w-full h-[70px]  left-0 top-0 pl-4 pr-4 flex items-center justify-between md:justify-around lg:justify-around z-50`}
+        className={`${isScroll ? "bg-linear-to-t from-blue-950/15  to-[#0d071f] backdrop-blur-md fixed " : "absolute bg-transparent "}transition duration-300 ease-in-out navbar animate-fade-down animate-once animate-duration-[500ms] animate-delay-200 animate-ease-in w-full h-[70px]  left-0 top-0 px-4 flex items-center justify-between lg:justify-around lg:justify-around z-50`}
       >
         <div ref={menuRef} className="w-fit h-full flex items-center ">
           <a
             onClick={() => setIsOpen(!isOpen)}
-            className="transition ease-in-out duration-500 text-white md:hidden block p-4 hover:text-neutral-50! focus:text-neutral-50! "
+            className="transition ease-in-out duration-500 text-white lg:hidden block p-4 hover:text-neutral-50! focus:text-neutral-50! "
           >
             {isOpen ? <CloseOutlined /> : <MenuOutlined />}
           </a>
           <div
-            className={`${isOpen ? "block" : "hidden"} block md:hidden w-fit h-auto p-2 ml-1 rounded-lg flex flex-col bg-[#0d071f] fixed left-0 top-[70px]`}
+            className={`${isOpen ? "block" : "hidden"} block lg:hidden animate-fade-down animate-duration-500 w-fit h-auto p-2 ml-1 rounded-lg flex flex-col bg-[#0d071f] fixed left-0 top-[70px]`}
           >
             {menuItems?.map(item => {
               return (
@@ -138,6 +186,28 @@ const Navbar = () => {
                 </div>
               );
             })}
+            <div className="my-2 px-4">
+              {isAuthenticated ? (
+                <ConfigProvider
+                  theme={{
+                    components: {
+                      Dropdown: { colorBgElevated: "#1a1a2e", colorText: "#fff", colorTextDisabled: "#666" },
+                    },
+                  }}
+                >
+                  <Dropdown menu={{ items: userMenuItems }} arrow={{ pointAtCenter: true }} placement="" trigger={["click"]}>
+                    <button className="flex items-center gap-2 px-2 py-1.5 rounded-full border border-amber-400/40 hover:border-amber-400 transition-all cursor-pointer">
+                      <Avatar size={28} icon={<UserOutlined />} className="bg-amber-500" />
+                      <span className="text-amber-50 text-sm font-medium max-w-[100px] truncate">{user?.username}</span>
+                    </button>
+                  </Dropdown>
+                </ConfigProvider>
+              ) : (
+                <NavLink className="p-[25px] text-amber-400 font-semibold" to="/dang-nhap" onClick={() => setIsOpen(false)}>
+                  Đăng nhập
+                </NavLink>
+              )}
+            </div>
           </div>
 
           <a href="/" className={`${isSearch ? "hidden" : "block"} md:block w-fit h-full`}>
@@ -173,7 +243,7 @@ const Navbar = () => {
               }}
             >
               <Search
-                className=" placeholder:text-amber-50!   w-328 md:w-40! lg:w-96!"
+                className=" placeholder:text-amber-50!  lg:w-70! xl:w-96!"
                 size="large"
                 placeholder="Tìm kiếm"
                 value={isKeyword}
@@ -222,10 +292,10 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        <div className={`hidden md:flex flex-wrap`}>
-          {menuItems?.map(item => {
+        <div className={`hidden lg:grid grid-rows-1 grid-cols-6 items-center`}>
+          {menuItems?.map((item, index) => {
             return (
-              <div key={item.link}>
+              <div className={`col-start-${index + 1}`} key={item.link}>
                 {item.link.includes("dropdown") ? (
                   <span className="px-[15px]  text-amber-50 font-medium hover:text-[#535bf2]!">{item.label}</span>
                 ) : (
@@ -236,6 +306,29 @@ const Navbar = () => {
               </div>
             );
           })}
+          {isAuthenticated ? (
+            <ConfigProvider
+              theme={{
+                components: {
+                  Dropdown: { colorBgElevated: "#1a1a2e", colorText: "#fff", colorTextDisabled: "#666" },
+                },
+              }}
+            >
+              <Dropdown menu={{ items: userMenuItems }} arrow={{ pointAtCenter: true }} placement="bottom" trigger={["click"]}>
+                <button className="flex items-center gap-2 px-2 py-1.5 rounded-full border border-amber-400/40 hover:border-amber-400 transition-all cursor-pointer">
+                  <Avatar size={28} icon={<UserOutlined />} className="bg-amber-500" />
+                  <span className="text-amber-50 text-sm font-medium max-w-[100px] truncate">{user?.username}</span>
+                </button>
+              </Dropdown>
+            </ConfigProvider>
+          ) : (
+            <button
+              onClick={() => navigate("/dang-nhap")}
+              className="ml-3 px-4 py-1.5 rounded-full bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold transition-all cursor-pointer shadow-[0_0_12px_rgba(245,158,11,0.35)]"
+            >
+              Đăng nhập
+            </button>
+          )}
         </div>
       </div>
     </>

@@ -6,16 +6,15 @@ import SekeletonLoadingLogo from "./SekeletonLoadingLogo";
 import { Link } from "react-router";
 import { useSwipeable } from "react-swipeable";
 import tmdb from "../../assets/tmdb.svg";
-import { CaretDownOutlined, DownOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
+import { useFavorites } from "../../context/MovieContext";
 const HeroSection = ({ MovieData }) => {
   const [isMovie, setIsMovie] = useState(0);
-
+  const { favoriteIds, toggleFavorite } = useFavorites();
   const handleScroll = () => {
     const targetElement = document.getElementById("section1");
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: "smooth" });
-    } else {
-      console.warn("Đang ở trang khác, không tìm thấy danh sách phim");
     }
   };
 
@@ -40,12 +39,12 @@ const HeroSection = ({ MovieData }) => {
         const top5Movies = MovieData.slice(0, 5);
         const promises = top5Movies.map(async item => {
           const res = await homeService.getMovie({ slug: item.slug });
-
           return {
             ...item,
             content: res.movie.content,
           };
         });
+
         const enrichedMovies = await Promise.all(promises);
         setMoviesWithDetails(enrichedMovies);
       } catch (error) {
@@ -56,10 +55,23 @@ const HeroSection = ({ MovieData }) => {
     fetchAllMoviesDetails();
   }, [MovieData]);
 
+  const handleFavorite = async () => {
+    try {
+      const movieData = {
+        slug: moviesWithDetails[isMovie].slug,
+        name: moviesWithDetails[isMovie].name,
+        thumb_url: moviesWithDetails[isMovie]?.thumb_url,
+        poster_url: moviesWithDetails[isMovie]?.poster_url,
+      };
+      await toggleFavorite(movieData);
+    } catch (error) {
+      console.error("Lỗi khi thêm phim yêu thích:", error);
+    }
+  };
+  const isFavorite = favoriteIds?.has(moviesWithDetails[isMovie]?.slug) || false;
   if (!moviesWithDetails || moviesWithDetails.length === 0) {
     return <SekeletonLoadingLogo />;
   }
-
   return (
     <div {...handlers} className="relative w-full h-[95vh] md:h-screen overflow-hidden">
       <div
@@ -71,7 +83,7 @@ const HeroSection = ({ MovieData }) => {
       <div className=" px-4 md:px-8 w-full h-full grid grid-cols-5 grid-rows-6 md:grid-cols-5 md:grid-rows-5 items-center gap-3 absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 p-4">
         <div
           key={"name" + isMovie}
-          className="animate-fade-right animate-duration-300 animate-ease-in col-start-1 row-span-2 col-span-full row-start-3 md:row-start-2 md:row-span-2 "
+          className="animate-fade-right animate-duration-300 animate-ease-in col-start-1 row-span-2 col-span-4 row-start-3 md:row-start-2 md:row-span-2 "
         >
           <Link
             to={`/phim/${moviesWithDetails[isMovie].slug}`}
@@ -122,14 +134,21 @@ const HeroSection = ({ MovieData }) => {
         </div>
         <div
           key={"playbtn" + isMovie}
-          className="animate-fade-right animate-duration-300 hidden animate-ease-in col-start-5 md:col-start-1 row-start-3 md:row-start-5 md:p-3 w-auto md:flex justify-start md:items-center"
+          className="animate-fade-right animate-duration-300  animate-ease-in col-start-5 md:col-start-1 row-start-3 md:row-start-5 md:p-3 w-auto flex justify-start md:items-center"
         >
           <a href={`/phim/${moviesWithDetails[isMovie].slug}`}>
-            <IoPlayCircle className="text-amber-600 mask-b-from-50% mask-radial-[50%_90%] mask-radial-from-80% text-8xl hover:scale-110 hover:text-amber-500 " />
+            <IoPlayCircle className="hidden md:block text-amber-600 mask-b-from-50% mask-radial-[50%_90%] mask-radial-from-80% text-8xl hover:scale-110 hover:text-amber-500 " />
           </a>
           <a href={`/phim/${moviesWithDetails[isMovie].slug}`}>
-            <IoInformationCircleSharp className="hidden md:block ml-4 text-amber-50 text-3xl hover:scale-110 hover:text-amber-500" />
+            <IoInformationCircleSharp className="hidden md:block ml-4 text-amber-50 text-4xl hover:scale-110 hover:text-amber-500" />
           </a>
+          <button className="p-0! m-0!" onClick={() => handleFavorite()}>
+            {isFavorite ? (
+              <HeartFilled className=" ml-4 text-amber-500! pt-1 text-3xl hover:scale-110 hover:text-amber-50" />
+            ) : (
+              <HeartOutlined className=" ml-4 text-amber-50! pt-1 text-3xl hover:scale-110 hover:text-amber-500" />
+            )}
+          </button>
         </div>
         <div className="animate-fade-right animate-duration-300 animate-ease-in col-start-2 col-span-3 w-full md:col-span-1 md:col-start-3 row-start-6 md:row-start-5 md:p-3 flex items-center justify-center">
           <button

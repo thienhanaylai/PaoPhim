@@ -1,8 +1,11 @@
-import React from "react";
+import { Helmet } from "react-helmet-async";
 
 const NotFoundPage = () => {
   return (
     <div className="min-h-screen bg-[#0a0c10] flex flex-col items-center justify-center text-white p-4 font-sans">
+      <Helmet>
+        <title>404 - Không tìm thấy trang - PaoPhim</title>
+      </Helmet>
       <div className="text-center max-w-2xl">
         <h1 className="text-[150px] font-black leading-none text-transparent bg-clip-text bg-gradient-to-br from-[#f59e0b] to-[#ea580c] drop-shadow-xl mb-4">
           404

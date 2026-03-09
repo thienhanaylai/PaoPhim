@@ -3,12 +3,13 @@ import HomePage from "../pages/HomePage";
 import { createBrowserRouter } from "react-router";
 import { lazy, Suspense } from "react";
 import { Skeleton } from "antd";
-const MoviePage = lazy(() => import("../pages/MoviePage"));
+const MovieListPage = lazy(() => import("../pages/MovieListPage"));
 const DetailMoviePage = lazy(() => import("../pages/DetailMoviePage"));
 const VideoStream = lazy(() => import("../pages/VideoStreamPage"));
-const CategoryMoviePage = lazy(() => import("../pages/CategoryMoviePage"));
-const CountryMoviePage = lazy(() => import("../pages/CountryMoviePage"));
 const FindMoviePage = lazy(() => import("../pages/FindMoviePage"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+const RegisterPage = lazy(() => import("../pages/RegisterPage"));
+const ProfilePage = lazy(() => import("../pages/ProfilePage"));
 
 const AppRoutes = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const AppRoutes = createBrowserRouter([
               </div>
             }
           >
-            <MoviePage key={"phim-bo"} type_list="phim-bo" />
+            <MovieListPage key={"phim-bo"} pageType="danh-sach" type_list="phim-bo" />
           </Suspense>
         ),
       },
@@ -44,7 +45,7 @@ const AppRoutes = createBrowserRouter([
               </div>
             }
           >
-            <MoviePage key={"phim-le"} type_list="phim-le" />
+            <MovieListPage key={"phim-le"} pageType="danh-sach" type_list="phim-le" />
           </Suspense>
         ),
       },
@@ -58,7 +59,7 @@ const AppRoutes = createBrowserRouter([
               </div>
             }
           >
-            <CategoryMoviePage key={"the-loai"} />
+            <MovieListPage key={"the-loai"} pageType="the-loai" />
           </Suspense>
         ),
       },
@@ -72,7 +73,7 @@ const AppRoutes = createBrowserRouter([
               </div>
             }
           >
-            <CountryMoviePage key={"quoc-gia"} />
+            <MovieListPage key={"quoc-gia"} pageType="quoc-gia" />
           </Suspense>
         ),
       },
@@ -118,11 +119,39 @@ const AppRoutes = createBrowserRouter([
           </Suspense>
         ),
       },
-      // {
-      //   path: "*",
-      //   element: <Navigate to="/" replace />,
-      // },
+      {
+        path: "trang-ca-nhan",
+        element: (
+          <Suspense fallback={<div className="min-h-screen bg-[#0a0c10]" />}>
+            <ProfilePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "phim-yeu-thich",
+        element: (
+          <Suspense fallback={<div className="min-h-screen bg-[#0a0c10]" />}>
+            <ProfilePage defaultTab={"favorite"} />
+          </Suspense>
+        ),
+      },
     ],
+  },
+  {
+    path: "dang-nhap",
+    element: (
+      <Suspense fallback={<div className="min-h-screen bg-[#0a0c10]" />}>
+        <LoginPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "dang-ky",
+    element: (
+      <Suspense fallback={<div className="min-h-screen bg-[#0a0c10]" />}>
+        <RegisterPage />
+      </Suspense>
+    ),
   },
 ]);
 
