@@ -4,7 +4,7 @@ import HeroSection from "../components/layouts/HeroSection";
 import movieService from "../services/movieService";
 import ListMovie from "../components/layouts/ListMovie";
 import { useFavorites } from "../context/MovieContext";
-import FarvoriteListMovie from "../components/layouts/farvoriteListMovie";
+import FarvoriteListMovie from "../components/layouts/FarvoriteListMovie";
 const HomePage = () => {
   const { favoriteMovies } = useFavorites();
   const [moviesData, setMoviesData] = useState({
