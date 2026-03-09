@@ -63,7 +63,7 @@ const ProfilePage = ({ defaultTab }) => {
   const handleChangePassword = async values => {
     setPwLoading(true);
     try {
-      await authService.changePassword({ oldPassword: values.oldPassword, newPassword: values.newPassword });
+      await authService.changePassword({ currentPassword: values.oldPassword, newPassword: values.newPassword });
       message.success("Đổi mật khẩu thành công!");
       pwForm.resetFields();
     } catch (err) {

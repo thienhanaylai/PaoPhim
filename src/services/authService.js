@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const authAxios = axios.create({
-  baseURL: "https://api.paophim.app",
+  baseURL: import.meta.env.VITE_PAOPIHM_API,
   headers: { "Content-Type": "application/json" },
 });
 
@@ -23,8 +23,8 @@ const authService = {
   register: ({ username, email, password }) => authAxios.post("/api/v1/users/register", { username, email, password }),
   getProfile: () => authAxios.get("/api/v1/users/me"),
   updateProfile: ({ username, email }) => authAxios.patch("/api/v1/users/me", { username, email }),
-  changePassword: ({ oldPassword, newPassword }) =>
-    authAxios.patch("/api/v1/users/change-password", { oldPassword, newPassword }),
+  changePassword: ({ currentPassword, newPassword }) =>
+    authAxios.put("/api/v1/users/change-password", { currentPassword, newPassword }),
 };
 
 export default authService;

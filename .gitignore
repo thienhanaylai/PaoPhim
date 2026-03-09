@@ -24,3 +24,4 @@ dist.rar
 *.sln
 *.sw?
 todo.txt
+.env
