@@ -19,10 +19,9 @@ authAxios.interceptors.response.use(
 );
 
 const userService = {
-  login: ({ login, password }) => authAxios.post("/api/v1/users/login", { login, password }),
-  getFavoriteMovie: ({ userId }) => authAxios.get(`/api/v1/users/favorite-movie/${userId}`),
-  addFavoriteMovie: ({ userId, movieData }) => authAxios.post("/api/v1/users/add-favorite-movie", { userId, movieData }),
-  deleteFavoriteMovie: ({ userId, slug }) => authAxios.post("/api/v1/users/remove-favorite-movie", { userId, slug }),
+  getFavoriteMovie: ({ userId }) => authAxios.get(`/api/v1/favorite/favorite-movie/${userId}`),
+  addFavoriteMovie: ({ userId, movieData }) => authAxios.post("/api/v1/favorite/add-favorite-movie", { userId, movieData }),
+  deleteFavoriteMovie: ({ userId, slug }) => authAxios.post("/api/v1/favorite/remove-favorite-movie", { userId, slug }),
 };
 
 export default userService;

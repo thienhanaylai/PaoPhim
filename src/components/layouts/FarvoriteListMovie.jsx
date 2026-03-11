@@ -3,9 +3,33 @@ import { Link } from "react-router";
 import { useFavorites } from "../../context/MovieContext";
 import { useAuth } from "../../context/AuthContext";
 import homeService from "../../services/movieService";
+import { useEffect, useState } from "react";
 const FarvoriteListMovie = ({ ListMovie, TitleList, slug, id = "" }) => {
   const { favoriteIds, toggleFavorite } = useFavorites();
   const { isAuthenticated } = useAuth();
+  const [isMoviesWithDetails, setMoviesWithDetails] = useState([]);
+  useEffect(() => {
+    const fetchAllMoviesDetails = async () => {
+      try {
+        const Movies = ListMovie.slice(0, 7);
+        const promises = Movies.map(async item => {
+          const res = await homeService.getMovie({ slug: item.slug });
+          return {
+            ...item,
+            episode_current: res.movie.episode_current,
+          };
+        });
+
+        const enrichedMovies = await Promise.all(promises);
+        setMoviesWithDetails(enrichedMovies);
+      } catch (error) {
+        console.error("Lỗi khi fetch chi tiết phim:", error);
+      }
+    };
+
+    fetchAllMoviesDetails();
+  }, [ListMovie]);
+
   const handleFavorite = async ({ slug }) => {
     try {
       const data = await homeService.getMovie({ slug });
@@ -37,7 +61,7 @@ const FarvoriteListMovie = ({ ListMovie, TitleList, slug, id = "" }) => {
       </div>
       {ListMovie.length ? (
         <div className="p-5 grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7  gap-3  from-white to-zinc-900 to-75% z-10">
-          {ListMovie?.slice(0, 7).map(item => {
+          {isMoviesWithDetails?.slice(0, 7).map(item => {
             const isFavorite = favoriteIds?.has(item?.slug) || false;
             return (
               <div

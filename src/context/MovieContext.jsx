@@ -26,6 +26,7 @@ export const FavoriteProvider = ({ children }) => {
   };
   const fetchFavorites = async () => {
     try {
+      if (!isAuthenticated) return;
       const res = await userService.getFavoriteMovie({ userId: user?.id });
       setFavoriteMovies(res?.favoriteMovie || []);
     } catch (error) {
@@ -37,7 +38,7 @@ export const FavoriteProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated) fetchFavorites();
-  }, []);
+  }, [user]);
 
   const favoriteIds = useMemo(() => {
     if (favoriteMovies && Array.isArray(favoriteMovies)) return new Set(favoriteMovies?.map(movie => movie.slug));
